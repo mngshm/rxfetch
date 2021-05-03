@@ -10,6 +10,6 @@
 # Installation 
 - ```git clone https://github.com/Mangeshrex/rfetch ```
 - ```cd rfetch && chmod +x rfetch```
--```./rfetch``` 
+- ```./rfetch```
 
 
