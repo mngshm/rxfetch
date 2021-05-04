@@ -27,7 +27,7 @@ echo "      .-.      ${c2}kr${c3}    $(uname -r)"
 echo "      oo|      ${c7}pkgs${c3}  $(pacman -Qq | wc -l)"
 echo "     / '\      ${c4}sh${c3}    $(echo $SHELL)"
 echo "    (\_;/)     ${c5}up${c3}   $(uptime -p | sed 's/up//')"
-echo "               ${c6}ram${c3}   $(free | grep Mem | awk '{print $3 / 3924}')"
+echo "               ${c6}ram${c3}   $(free -m | sed -n 's/^Mem:\s\+[0-9]\+\s\+\([0-9]\+\)\s.\+/\1/p')"
 
 echo "               " 
 echo "     	 ${c6}󰮯 ${c6} ${c2}󰊠 ${c2} ${c4}󰊠 ${c4} ${c5}󰊠 ${c5} ${c7}󰊠 ${c7}"
