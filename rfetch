@@ -24,7 +24,6 @@ c7="${reset}${cyan}"
 if [[ $distro = "void" ]]
 then
   pkgcount="$(xbps-query -l | wc -l)"
-  pkgcount="$(sudo dpkg-query -f '${binary:Package}\n' -W | wc -l)" 
 else
   pkgcount="$(pacman -Qq | wc -l)"
 fi
