@@ -1,6 +1,6 @@
 
 # The Actual Look of Fetch 
-<img src="https://raw.githubusercontent.com/siduck76/rfetch/main/screenshots/fetch.png">
+<img src="https://raw.githubusercontent.com/siduck76/rfetch/main/screenshots/1.png">
 
 - Custom System Fetching tool which is very simlpe created in bash. 
 
