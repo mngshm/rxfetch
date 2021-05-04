@@ -27,9 +27,6 @@ mem=$(free -m | sed -n 's/^Mem:\s\+[0-9]\+\s\+\([0-9]\+\)\s.\+/\1/p')
 if [[ $distro = "void" ]]
 then
   pkgcount="$(xbps-query -l | wc -l)"
-elif [[ $distro = "Android" ]]
-then
-  pkgcount="$(dpkg-query -l | wc -l)"
 else
   pkgcount="$(pacman -Qq | wc -l)"
 fi
