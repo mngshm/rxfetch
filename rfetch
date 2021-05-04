@@ -33,7 +33,7 @@ fi
 
 echo "               ${c1}os${c3}    $(source /etc/os-release && echo $PRETTY_NAME)"
 echo "      .-.      ${c2}kr${c3}    $(uname -r)"
-echo "      oo|      ${c7}pkgs${c3}  $(pacman -Qq | wc -l)"
+echo "      oo|      ${c7}pkgs${c3}  $(pkgcount)"
 echo "     / '\      ${c4}sh${c3}    $(echo $SHELL)"
 echo "    (\_;/)     ${c5}up${c3}   $(uptime -p | sed 's/up//')"
 echo "               ${c6}ram${c3}   $(free -m | sed -n 's/^Mem:\s\+[0-9]\+\s\+\([0-9]\+\)\s.\+/\1/p')"
