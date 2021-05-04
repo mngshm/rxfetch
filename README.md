@@ -1,5 +1,7 @@
 
-# mrfetch
+# The Actual Look of Fetch 
+![fetch](https://user-images.githubusercontent.com/82205152/116968009-4161c180-acd1-11eb-94a3-4a6cb9c902ab.png)
+
 
 - Custom System Fetching tool which is very simlpe created in bash. 
 
