@@ -12,9 +12,8 @@
 # Installation 
 
  ```
- git clone https://github.com/Mangeshrex/rfetch
- cd rfetch && chmod +x rfetch
- ./rfetch
+ wget https://raw.githubusercontent.com/Mangeshrex/rfetch/main/rfetch
+ ```
 
  (put rfetch in /bin or your PATH)
 
