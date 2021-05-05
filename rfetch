@@ -22,7 +22,7 @@ c7="${reset}${cyan}"
 
 #get total packages
 net_pkg(){
-    pack=$(which {xbps-install,apk,apt,pacman,nix,yum,rpm,dpkg} 2> /dev/null |grep -v "not found" | awk -F/ '{print $NF}')
+    pack=$(which {xbps-install,apk,apt,pacman,nix,yum,rpm,dpkg} 2> /dev/null |grep -v "not found" | awk -F/ 'NR==1{print $NF}')
     case $pack in
         "xbps-install")
             total=$(xbps-query -l | wc -l)
