@@ -87,7 +87,7 @@ eq() { # <- credits to gk
 }
 
 while read -r line; do
-  eq "$line" 'MemTotal*' && set -- "${line}" && break
+  eq "$line" 'MemTotal*' && set -- $line && break
 done </proc/meminfo
 totalRam="$(($2 / 1000))"
 mem="$(free -m | sed -n 's/^Mem:\s\+[0-9]\+\s\+\([0-9]\+\)\s.\+/\1/p')"
