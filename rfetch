@@ -31,7 +31,7 @@ net_pkg() {
 	  total=$(apk search | wc -l)
 	  ;;
       "apt")
-	  total=$(apt list --installed | wc -l)
+	  total=$(apt list --installed 2>/dev/null | wc -l)
 	  ;;
       "pacman")
 	  total=$(pacman -Q | wc -l)
