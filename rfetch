@@ -18,7 +18,8 @@ c4="${blue}"
 c5="${red}"
 c6="${yellow}"
 c7="${cyan}"
-
+#Get init name
+pidof systemd && init="systemd" || init="$(cat /proc/1/comm)"
 #get total packages
 
 net_pkg() {
@@ -91,17 +92,16 @@ while read -r line; do
 done </proc/meminfo
 totalRam="$(($2 / 1000))"
 mem="$(free -m | sed -n 's/^Mem:\s\+[0-9]\+\s\+\([0-9]\+\)\s.\+/\1/p')"
-pkgcount="$(net_pkg)"
-arch="$(uname -m)"
 # fetch output
 distro_detect
 echo "               "
-echo -e "               ${c1}os${c3}    ${distro} $arch"
+echo -e "               ${c1}os${c3}    ${distro} $(uname -m)"
 echo -e "      .-.      ${c2}ker${c3}   $(uname -r)"
-echo -e "      oo|      ${c7}pkgs${c3}  $pkgcount"
+echo -e "      oo|      ${c7}pkgs${c3}  $(net_pkg)"
 echo -e "     / '\      ${c4}sh${c3}    $(basename "${SHELL}")"
 echo -e "    (\_;/)     ${c5}up${c3}   $(uptime -p | sed 's/up//')"
 echo -e "               ${c6}ram${c3}   $mem / $totalRam MB"
+echo -e "               ${c1}init${c4}    $init"
 echo -e "               "
 echo -e "     	 ${c6}󰮯 ${c6} ${c2}󰊠 ${c2} ${c4}󰊠 ${c4} ${c5}󰊠 ${c5} ${c7}󰊠 ${c7}"
 echo -e "               \033[0m"
