@@ -18,10 +18,13 @@ c4="${blue}"
 c5="${red}"
 c6="${yellow}"
 c7="${cyan}"
-#Get init name
-pidof systemd && init="systemd" || init="$(cat /proc/1/comm)"
-#get total packages
 
+#Get init name
+get_init() {
+    pidof systemd && init="systemd" || init="$(cat /proc/1/comm)"
+}
+
+#get total packages
 net_pkg() {
     pack="$(which {xbps-install,apk,apt,pacman,nix,yum,rpm,dpkg} 2>/dev/null | grep -v "not found" | awk -F/ 'NR==1{print $NF}')"
   case "${pack}" in
@@ -77,21 +80,11 @@ distro_detect() {
 	    ;;
     esac
 }
-# current memory usage and total ram
-eq() { # <- credits to gk
-  case $1 in
-      $2)
-      ;;
-      *) return 1
-	 ;;
-  esac
-}
 
-while read -r line; do
-  eq "$line" 'MemTotal*' && set -- $line && break
-done </proc/meminfo
-totalRam="$(($2 / 1000))"
-mem="$(free -m | sed -n 's/^Mem:\s\+[0-9]\+\s\+\([0-9]\+\)\s.\+/\1/p')"
+# Get Memory usage
+get_mem () {
+  free --mega | sed -n -E '2s/^[^0-9]*([0-9]+) *([0-9]+).*/'"${space}"'\2 \/ \1 MB/p'
+}
 # fetch output
 distro_detect
 echo "               "
@@ -100,8 +93,8 @@ echo -e "      .-.      ${c2}ker${c3}   $(uname -r)"
 echo -e "      oo|      ${c7}pkgs${c3}  $(net_pkg)"
 echo -e "     / '\      ${c4}sh${c3}    $(basename "${SHELL}")"
 echo -e "    (\_;/)     ${c5}up${c3}   $(uptime -p | sed 's/up//')"
-echo -e "               ${c6}ram${c3}   $mem / $totalRam MB"
-echo -e "               ${c1}init${c4}  $init"
+echo -e "               ${c6}ram${c3}   $(get_mem)"
+echo -e "               ${c1}init${c4}  $(get_init)"
 echo -e "               "
 echo -e "     	 ${c6}󰮯 ${c6} ${c2}󰊠 ${c2} ${c4}󰊠 ${c4} ${c5}󰊠 ${c5} ${c7}󰊠 ${c7}"
 echo -e "               \033[0m"
