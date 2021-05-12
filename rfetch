@@ -83,7 +83,7 @@ distro_detect() {
 
 # Get Memory usage
 get_mem () {
-  free --mega | sed -n -E '2s/^[^0-9]*([0-9]+) *([0-9]+).*/'"${space}"'\2\/\1 MB/p'
+  free --mega | sed -n -E '2s/^[^0-9]*([0-9]+) *([0-9]+).*/'"${space}"'\2 \/ \1 MB/p'
 }
 # fetch output
 distro_detect
