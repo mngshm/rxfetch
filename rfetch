@@ -7,10 +7,13 @@ green="\033[1;32m"
 white="\033[1;37m"
 blue="\033[1;34m"
 red="\033[1;31m"
-#black="(tput setaf 0)"
+black="\033[1;40;30m"
 yellow="\033[1;33m"
 cyan="\033[1;36m"
-#c0="${reset}${bold}"
+reset="\033[0m"
+bgyellow="\033[1;43;33m"
+bgwhite="\033[1;47;37m"
+c0="${reset}"
 c1="${magenta}"
 c2="${green}"
 c3="${white}"
@@ -18,10 +21,20 @@ c4="${blue}"
 c5="${red}"
 c6="${yellow}"
 c7="${cyan}"
-
+c8="${black}"
+c9="${bgyellow}"
+c10="${bgwhite}"
 #Get init name
 get_init() {
-    pidof systemd && init="systemd" || init="$(cat /proc/1/comm)"
+    os="$(uname -o)"
+    case "${os}" in
+	Android)
+	    echo unknown
+	    ;;
+	*)  
+	    pidof systemd && init="systemd" || init="$(cat /proc/1/comm)"
+	    ;;
+    esac
 }
 
 #get total packages
@@ -89,10 +102,10 @@ get_mem () {
 distro_detect
 echo "               "
 echo -e "               ${c1}os${c3}    ${distro} $(uname -m)"
-echo -e "      .-.      ${c2}ker${c3}   $(uname -r)"
-echo -e "      oo|      ${c7}pkgs${c3}  $(net_pkg)"
-echo -e "     / '\      ${c4}sh${c3}    $(basename "${SHELL}")"
-echo -e "    (\_;/)     ${c5}up${c3}   $(uptime -p | sed 's/up//')"
+echo -e "      ${c8}.-.${c0}      ${c2}ker${c3}   $(uname -r)"
+echo -e "      ${c8}${c0}${c9}oo${c0}${c8}|${c0}      ${c7}pkgs${c3}  $(net_pkg)"
+echo -e "     ${c8}/${c0}‎${c10} ${c0}${c8}'\'${c0}      ${c4}sh${c3}    $(basename "${SHELL}")"
+echo -e "    ${c9}(${c0}${c8}\_;/${c0}${c9})${c0}     ${c5}up${c3}   $(uptime -p | sed 's/up//')"
 echo -e "               ${c6}ram${c3}   $(get_mem)"
 echo -e "               ${c1}init${c4}  $(get_init)"
 echo -e "               "
