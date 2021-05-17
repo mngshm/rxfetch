@@ -29,11 +29,11 @@ get_init() {
     os="$(uname -o)"
     case "${os}" in
 	Android)
-	    echo unknown
-	    ;;
+	   echo unknown
+	   ;;
 	*)  
-	    pidof systemd && init="systemd" || init="$(cat /proc/1/comm)"
-	    ;;
+	   pidof systemd && init="systemd" || init="$(cat /proc/1/comm)"
+	   ;;
     esac
 }
 
@@ -42,32 +42,32 @@ net_pkg() {
     pack="$(which {xbps-install,apk,apt,pacman,nix,yum,rpm,dpkg} 2>/dev/null | grep -v "not found" | awk -F/ 'NR==1{print $NF}')"
   case "${pack}" in
       "xbps-install")
-	  total=$(xbps-query -l | wc -l)
-	  ;;
+	 total=$(xbps-query -l | wc -l)
+	 ;;
       "apk")
-	  total=$(apk search | wc -l)
-	  ;;
+	 total=$(apk search | wc -l)
+	 ;;
       "apt")
-	  total=$(apt list --installed 2>/dev/null | wc -l)
-	  ;;
+	 total=$(apt list --installed 2>/dev/null | wc -l)
+	 ;;
       "pacman")
-	  total=$(pacman -Q | wc -l)
-	  ;;
+	 total=$(pacman -Q | wc -l)
+	 ;;
       "nix")
-	  total=$(nix-env -qa --installed "*" | wc -l)
-	  ;;
+	 total=$(nix-env -qa --installed "*" | wc -l)
+	 ;;
       "yum")
-	  total=$(yum list installed | wc -l)
-	  ;;
+	 total=$(yum list installed | wc -l)
+	 ;;
       "rpm")
-	  total=$(rpm -qa | wc -l)
-	  ;;
+	 total=$(rpm -qa | wc -l)
+	 ;;
 #      "dpkg")
-#	  total=$(dpkg-query -l | wc -l)
-#	  ;;
+#	 total=$(dpkg-query -l | wc -l)
+#	 ;;
       "")
-	  total="Unknown"
-	  ;;
+	 total="Unknown"
+	 ;;
   esac
 
   echo $total
@@ -78,19 +78,19 @@ distro_detect() {
     os="$(uname -o)"
     case "${os}" in
 	Android)
-	    distro="Android"
-	    if [ ! -f "${HOME}"/.termux/fonts/Material.ttf ];then
+	   distro="Android"
+	   if [ ! -f "${HOME}"/.termux/fonts/Material.ttf ];then
 		cp fonts/* "${HOME}"/.termux/fonts/
 		termux-reload-settings
-	    fi
-	    ;;
+	   fi
+	   ;;
 	*)
-	    distro="$(source /etc/os-release && echo "${PRETTY_NAME}")"
-	    if [ ! -f /usr/share/fonts/Material.ttf ];then
+	   distro="$(source /etc/os-release && echo "${PRETTY_NAME}")"
+	   if [ ! -f /usr/share/fonts/Material.ttf ];then
 		sudo cp fonts/* /usr/share/fonts/
 		fc-cache -vf &>/dev/null
-	    fi
-	    ;;
+	   fi
+	   ;;
     esac
 }
 
@@ -102,12 +102,12 @@ get_mem () {
 distro_detect
 echo "               "
 echo -e "               ${c1}os${c3}    ${distro} $(uname -m)"
-echo -e "      ${c8}.-.${c0}      ${c2}ker${c3}   $(uname -r)"
+echo -e "      ${c3}•${c8}_${c3}•${c0}      ${c2}ker${c3}   $(uname -r)"
 echo -e "      ${c8}${c0}${c9}oo${c0}${c8}|${c0}      ${c7}pkgs${c3}  $(net_pkg)"
-echo -e "     ${c8}/${c0}‎${c10} ${c0}${c8}'\'${c0}     ${c4}sh${c3}    $(basename "${SHELL}")"
+echo -e "     ${c8}/${c0}${c10} ${c0}${c8}'\'${c0}     ${c4}sh${c3}    $(basename "${SHELL}")"
 echo -e "    ${c9}(${c0}${c8}\_;/${c0}${c9})${c0}     ${c5}up${c3}   $(uptime -p | sed 's/up//')"
 echo -e "               ${c6}ram${c3}   $(get_mem)"
 echo -e "               ${c1}init${c3}  $(get_init)"
 echo -e "               "
-echo -e "     	 ${c6}󰮯 ${c6} ${c2}󰊠 ${c2} ${c4}󰊠 ${c4} ${c5}󰊠 ${c5} ${c7}󰊠 ${c7}"
+echo -e "     	${c6}󰮯 ${c6} ${c2}󰊠 ${c2} ${c4}󰊠 ${c4} ${c5}󰊠 ${c5} ${c7}󰊠 ${c7}"
 echo -e "               \033[0m"
