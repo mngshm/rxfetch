@@ -24,14 +24,19 @@ c7="${cyan}"
 c8="${black}"
 c9="${bgyellow}"
 c10="${bgwhite}"
-#Get init name
-if [ ! $(pidof systemd) ];then
-    init=$(cat /proc/1/comm)
-else
-    init=systemd
-fi
-echo $init
 
+#getting the init 
+get_init() {
+    os="$(uname -o)"
+    case "${os}" in
+	Android)
+	   echo "init.rc"
+	   ;;
+	*)  
+	   pidof systemd && init="systemd" || init="$(cat /proc/1/comm)"
+	   ;;
+    esac
+}
 
 #get total packages
 net_pkg() {
