@@ -31,7 +31,7 @@ get_init() {
     if [[ "$os" = "Android" ]]; then
        echo "init.rc"
     elif [[ ! $(pidof systemd) ]]; then
-         $(cat /proc/1/comm)
+         echo $(cat /proc/1/comm)
     else
         echo "systemD"
     fi
