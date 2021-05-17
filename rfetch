@@ -28,14 +28,13 @@ c10="${bgwhite}"
 #getting the init 
 get_init() {
     os="$(uname -o)"
-    case "${os}" in
-	Android)
-	   echo "init.rc"
-	   ;;
-	*)  
-	   pidof systemd && init="systemd" || init="$(cat /proc/1/comm)"
-	   ;;
-    esac
+    if [[ "$os" = "Android" ]]; then
+       echo "init.rc"
+    elif [[ ! $(pidof systemd) ]]; then
+         echo $(cat /proc/1/comm)
+    else
+        echo "systemD"
+    fi
 }
 
 #get total packages
