@@ -17,6 +17,6 @@
  wget https://raw.githubusercontent.com/Mangeshrex/rfetch/main/rfetch
  ```
 
- (put rfetch in /bin or your PATH)
+ (make the file executable and put rfetch in /bin or your PATH)
 
- ```
+ ```sudo cp $HOME/rfetch/rfetch /usr/bin ```
