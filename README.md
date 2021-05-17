@@ -1,7 +1,8 @@
 
 # Screenshots
-<img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/1.png">
-<img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/fetch1.png">
+
+<img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/rfetch.png">
+
 
 - Custom System Fetching tool which is very simple created in bash. 
 
