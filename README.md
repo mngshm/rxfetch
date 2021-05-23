@@ -16,7 +16,7 @@
 # Installation 
 
  ```
- wget https://raw.githubusercontent.com/Mangeshrex/rfetch/main/rfetch
+ wget https://raw.githubusercontent.com/Mangeshrex/rxfetch/main/rxfetch
  ```
 
  (make the file executable and put rfetch in /bin or your PATH)
