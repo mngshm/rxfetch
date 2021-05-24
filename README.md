@@ -21,7 +21,5 @@
 
  (make the file executable and put rfetch in /bin or your PATH)
 
- ```sudo cp $HOME/rfetch/rfetch /usr/bin ```
-
-
-- 
+ ```chmod +x rxfetch```
+ ```sudo cp $HOME/rxfetch /usr/bin ```
