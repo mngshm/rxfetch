@@ -3,7 +3,7 @@
 # Screenshots
 <img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/Screenshot_20210129.png">
 <img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/deb.png">
-
+<img src="![image](https://user-images.githubusercontent.com/59060246/119942267-3d168480-bfaf-11eb-8e6e-7ba5bcfe8b37.png)">
 . 
 
 # Requirements 
