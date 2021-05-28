@@ -1,10 +1,8 @@
 - Custom System Fetching tool which is very simple created in bash
 
 # Screenshots
-<img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/Screenshot_20210129.png">
-<img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/deb.png">
 <img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/void2.png">
-. 
+
 
 # Requirements 
 - Material design icon's as for that pac-man and ghost icons. 
