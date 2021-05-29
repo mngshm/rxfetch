@@ -87,7 +87,7 @@ distro_detect() {
 	*)
 	   distro="$(source /etc/os-release && echo "${PRETTY_NAME}")"
 	   if [ ! -f /usr/share/fonts/Material.ttf ];then
-		cp -r ttf-material-design-icons/* .local/share/fonts
+		cp -r ttf-material-design-icons/* $HOME/.local/share/fonts
 		fc-cache -vf &>/dev/null
 	   fi
 	   ;;
