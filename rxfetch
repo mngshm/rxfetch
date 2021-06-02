@@ -67,7 +67,7 @@ net_pkg() {
 	 total=$(rpm -qa | wc -l)
 	 ;;
       "emerge")
-     total=$(qlist -I | wc -l)
+	 total=$(qlist -I | wc -l)
      ;;
 #      "dpkg")
 #	 total=$(dpkg-query -l | wc -l)
