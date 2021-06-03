@@ -25,13 +25,17 @@ c8="${black}"
 c9="${bgyellow}"
 c10="${bgwhite}"
 
-#getting the init 
+#getting the init
 get_init() {
     os="$(uname -o)"
     if [[ "$os" = "Android" ]]; then
        echo "init.rc"
     elif [[ ! $(pidof systemd) ]]; then
+        if [[ -f "/sbin/openrc" ]]; then
+            echo "openrc"
+        else
          echo $(cat /proc/1/comm)
+        fi
     else
         echo "systemD"
     fi
@@ -39,7 +43,7 @@ get_init() {
 
 #get total packages
 net_pkg() {
-    pack="$(which {xbps-install,apk,apt,pacman,nix,yum,rpm,dpkg} 2>/dev/null | grep -v "not found" | awk -F/ 'NR==1{print $NF}')"
+    pack="$(which {xbps-install,apk,apt,pacman,nix,yum,rpm,dpkg,emerge} 2>/dev/null | grep -v "not found" | awk -F/ 'NR==1{print $NF}')"
   case "${pack}" in
       "xbps-install")
 	 total=$(xbps-query -l | wc -l)
@@ -61,6 +65,9 @@ net_pkg() {
 	 ;;
       "rpm")
 	 total=$(rpm -qa | wc -l)
+	 ;;
+      "emerge")
+	 total=$(qlist -I | wc -l)
 	 ;;
 #      "dpkg")
 #	 total=$(dpkg-query -l | wc -l)
