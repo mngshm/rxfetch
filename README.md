@@ -1,4 +1,3 @@
-[love](http://forthebadge.com/images/badges/build-with-love.svg)
 
 - Custom System Fetching tool which is very simple created in bash
 
