@@ -22,3 +22,17 @@
 
  ```chmod +x rxfetch```
  ```sudo cp $HOME/rxfetch /usr/bin ```
+
+# Supported OS
+- Ubuntu
+- CentOS
+- Arch
+- Arco
+- Debian
+- Manjaro
+
+# Contributing
+
+You can help me to support more distro by runing this code (It get your DISTRIB_ID=) and start an issue with the output. Thanks!
+
+```awk '/DISTRIB_ID=/' /etc/*-release | sed 's/DISTRIB_ID=//' | tr '[:upper:]' '[:lower:]'```
