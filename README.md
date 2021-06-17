@@ -3,6 +3,7 @@
 
 # Screenshots
 <img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/void2.png">
+<img src="https://github.com/ProbablyNotLime/rxfetch/blob/8f64642488da76b19c9a925cbebf833202e36661/Screenshot%20from%202021-06-17%2021-01-43.png">
 
 
 # Requirements 
