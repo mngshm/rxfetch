@@ -1,0 +1,214 @@
+#!/usr/bin/env bash
+
+#colors
+#bold="(tput bold)"
+magenta="\033[1;35m"
+green="\033[1;32m"
+white="\033[1;37m"
+blue="\033[1;34m"
+red="\033[1;31m"
+black="\033[1;40;30m"
+yellow="\033[1;33m"
+cyan="\033[1;36m"
+reset="\033[0m"
+bgyellow="\033[1;43;33m"
+bgwhite="\033[1;47;37m"
+c0="${reset}"
+c1="${magenta}"
+c2="${green}"
+c3="${white}"
+c4="${blue}"
+c5="${red}"
+c6="${yellow}"
+c7="${cyan}"
+c8="${black}"
+c9="${bgyellow}"
+c10="${bgwhite}"
+
+#detect os
+OS=$(awk '/DISTRIB_ID=/' /etc/*-release | sed 's/DISTRIB_ID=//' | tr '[:upper:]' '[:lower:]')
+
+#getting the init
+get_init() {
+    os="$(uname -o)"
+    if [[ "$os" = "Android" ]]; then
+       echo "init.rc"
+    elif [[ ! $(pidof systemd) ]]; then
+        if [[ -f "/sbin/openrc" ]]; then
+            echo "openrc"
+        else
+         echo $(cat /proc/1/comm)
+        fi
+    else
+        echo "systemD"
+    fi
+}
+
+#get total packages
+net_pkg() {
+    pack="$(which {xbps-install,apk,apt,pacman,nix,yum,rpm,dpkg,emerge} 2>/dev/null | grep -v "not found" | awk -F/ 'NR==1{print $NF}')"
+  case "${pack}" in
+      "xbps-install")
+	 total=$(xbps-query -l | wc -l)
+	 ;;
+      "apk")
+	 total=$(apk search | wc -l)
+	 ;;
+      "apt")
+	 total=$(apt list --installed 2>/dev/null | wc -l)
+	 ;;
+      "pacman")
+	 total=$(pacman -Q | wc -l)
+	 ;;
+      "nix")
+	 total=$(nix-env -qa --installed "*" | wc -l)
+	 ;;
+      "yum")
+	 total=$(yum list installed | wc -l)
+	 ;;
+      "rpm")
+	 total=$(rpm -qa | wc -l)
+	 ;;
+      "emerge")
+	 total=$(qlist -I | wc -l)
+	 ;;
+#      "dpkg")
+#	 total=$(dpkg-query -l | wc -l)
+#	 ;;
+      "")
+	 total="Unknown"
+	 ;;
+  esac
+
+  echo $total
+}
+
+# check distro info for counting n.o of packages accordingly
+distro_detect() {
+    os="$(uname -o)"
+    case "${os}" in
+	Android)
+	   distro="Android"
+	   if [ ! -f "${HOME}"/.termux/fonts/Material.ttf ];then
+		cp fonts/* "${HOME}"/.termux/fonts/
+		termux-reload-settings
+	   fi
+	   ;;
+	*)
+	   distro="$(source /etc/os-release && echo "${PRETTY_NAME}")"
+       if [ ! -d $HOME/.local/share/fonts ]; then
+        mkdir -p $HOME/.local/share/fonts
+       fi
+	   if [ ! -f $HOME/.local/share/fonts/Material.ttf ] && [ ! -f /usr/share/fonts/Material.ttf ]; then
+		cp -r ttf-material-design-icons/* $HOME/.local/share/fonts
+		fc-cache -vf &>/dev/null
+	   fi
+	   ;;
+    esac
+}
+
+# Get Memory usage
+get_mem () {
+  free --mega | sed -n -E '2s/^[^0-9]*([0-9]+) *([0-9]+).*/'"${space}"'\2 \/ \1 MB/p'
+}
+# fetch output  (Hopefully working)
+# I fucked 1 hour to make that fuckin logo working ... send help
+distro_detect
+# Check for distros
+if [ $OS == "pop" ]
+then
+    echo -e "${c7} ______${c7}              ${c1}os${c3}    ${distro} $(uname -m)"
+    echo -e "${c7} \\   _ \\        __${c7}   ${c2}ker${c3}   $(uname -r)"
+    echo -e "${c7}  \\ \\ \\ \\      / /${c7}   ${c7}pkgs${c3}  $(net_pkg)"
+    echo -e "${c7}   \\ \\_\\ \\    / / ${c7}   ${c4}sh${c3}    $(basename "${SHELL}")"
+    echo -e "${c7}    \\  ___\\  /_/  ${c7}   ${c6}ram${c3}   $(get_mem)"
+    echo -e "${c7}     \\ \\    _     ${c7}   ${c1}init${c3}  $(get_init)"
+    echo -e "${c7}    __\\_\\__(_)_   ${c7}   ${c5}up${c3}   $(uptime -p | sed 's/up//')"
+    echo -e "${c7}   (___________)${c7}               "
+fi
+
+if [ $OS == "ubuntu" ]
+then
+    echo -e "${c5}          _  ${c5}   ${c1}os${c3}    ${distro} $(uname -m)"
+    echo -e "${c5}      ---(_) ${c5}   ${c2}ker${c3}   $(uname -r)"
+    echo -e "${c5}  _/  ---  \\ ${c5}   ${c7}pkgs${c3}  $(net_pkg)"
+    echo -e "${c5} (_) |   |   ${c5}   ${c4}sh${c3}    $(basename "${SHELL}")"
+    echo -e "${c5}   \\  --- _/ ${c5}   ${c6}ram${c3}   $(get_mem)"
+    echo -e "${c5}      ---(_) ${c5}   ${c1}init${c3}  $(get_init)"
+    echo -e "                ${c5}up${c3}   $(uptime -p | sed 's/up//')"
+    echo -e "               "
+fi
+
+if [ $OS == "centos" ]
+then
+    echo -e "${c2}  ____${c6}^${c1}____   ${c1}os${c3}    ${distro} $(uname -m)"
+    echo -e "${c2}  |\\  ${c6}|${c1}  /|   ${c2}ker${c3}   $(uname -r)"
+    echo -e "${c2}  | \\ ${c6}|${c1} / |   ${c7}pkgs${c3}  $(net_pkg)"
+    echo -e "${c1} <---- ${c4}---->  ${c4}sh${c3}    $(basename "${SHELL}")"
+    echo -e "${c4}  | / ${c2}|${c6} \\ |   ${c6}ram${c3}   $(get_mem)"
+    echo -e "${c4}  |/__${c2}|${c6}__\\|   ${c1}init${c3}  $(get_init)"
+    echo -e "${c2}      v       ${c5}up${c3}   $(uptime -p | sed 's/up//')"
+    echo -e "               "
+fi
+
+if [ $OS == "arch" ]
+then
+    echo -e "${c4}       /\\ ${c4}        ${c1}os${c3}    ${distro} $(uname -m)"
+    echo -e "${c4}      /  \\ ${c4}       ${c2}ker${c3}   $(uname -r)"
+    echo -e "${c4}     /\\   \\ ${c4}      ${c7}pkgs${c3}  $(net_pkg)"
+    echo -e "${c4}    /      \\ ${c4}     ${c4}sh${c3}    $(basename "${SHELL}")"
+    echo -e "${c4}   /   ,,   \\ ${c4}    ${c6}ram${c3}   $(get_mem)"
+    echo -e "${c4}  /   |  |  -\\ ${c4}   ${c1}init${c3}  $(get_init)"
+    echo -e "${c4} /_-''    ''-_\\ ${c4}  ${c5}up${c3}   $(uptime -p | sed 's/up//')"
+    echo -e "               "
+fi
+
+if [ $OS == "manjarolinux" ]
+then
+    echo -e "${c2} ||||||||| ||||  ${c1}os${c3}    ${distro} $(uname -m)"
+    echo -e "${c2} ||||||||| ||||  ${c2}ker${c3}   $(uname -r)"
+    echo -e "${c2} ||||      ||||  ${c7}pkgs${c3}  $(net_pkg)"
+    echo -e "${c2} |||| |||| ||||  ${c4}sh${c3}    $(basename "${SHELL}")"
+    echo -e "${c2} |||| |||| ||||  ${c6}ram${c3}   $(get_mem)"
+    echo -e "${c2} |||| |||| ||||  ${c1}init${c3}  $(get_init)"
+    echo -e "${c2} |||| |||| ||||  ${c5}up${c3}   $(uptime -p | sed 's/up//')"
+    echo -e "               "
+fi
+
+if [ $OS == "arcolinux" ]
+then
+    echo -e "${c4}      /\\        ${c1}os${c3}    ${distro} $(uname -m)"
+    echo -e "${c4}     /  \\       ${c2}ker${c3}   $(uname -r)"
+    echo -e "${c4}    / /\\ \\      ${c7}pkgs${c3}  $(net_pkg)"
+    echo -e "${c4}   / /  \\ \\     ${c4}sh${c3}    $(basename "${SHELL}")"
+    echo -e "${c4}  / /    \\ \\    ${c6}ram${c3}   $(get_mem)"
+    echo -e "${c4} / / ${c3}_____\\ \\   ${c1}init${c3}  $(get_init)"
+    echo -e "${c4}/_/  ${c3}\`----.\\_\\  ${c5}up${c3}   $(uptime -p | sed 's/up//')"
+    echo -e "               "
+fi
+
+if [ $OS == "debian" ]
+then
+    echo -e "${c5}   _____    ${c1}os${c3}    ${distro} $(uname -m)"
+    echo -e "${c5}  /  __ \\   ${c2}ker${c3}   $(uname -r)"
+    echo -e "${c5} |  /    |  ${c7}pkgs${c3}  $(net_pkg)"
+    echo -e "${c5} |  \\___-   ${c4}sh${c3}    $(basename "${SHELL}")"
+    echo -e "${c5} -_         ${c6}ram${c3}   $(get_mem)"
+    echo -e "${c5}   --_      ${c1}init${c3}  $(get_init)"
+    echo -e "            ${c5}up${c3}   $(uptime -p | sed 's/up//')"
+    echo -e "               "
+fi
+
+#It's not working. I give up. Fuck Fedora
+#if [ $OS == "fedora" ]
+#then
+#    echo -e "${c4}        _____     ${c1}os${c3}    ${distro} $(uname -m)"
+#    echo -e "${c4}       /   __)${c3}\\   ${c2}ker${c3}   $(uname -r)"
+#    echo -e "${c4}       |  /  ${c3}\\ \\  ${c7}pkgs${c3}  $(net_pkg)"
+#    echo -e "${c4}    ${c3}___${c4}|  |${c3}__/ /  ${c4}sh${c3}    $(basename "${SHELL}")"
+#    echo -e "${c4}   ${c3}/ ${c4}(_    _)${c3}_/   ${c6}ram${c3}   $(get_mem)"
+#    echo -e "${c3}  / /  ${c4}|  |       ${c1}init${c3}  $(get_init)"
+#    echo -e "${c3}  \\ \\ ${c4}__/  |       ${c5}up${c3}   $(uptime -p | sed 's/up//')"
+#    echo -e "${c3}   \\ ${c4}(_____/        "
+#fi
+
