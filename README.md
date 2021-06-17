@@ -31,6 +31,7 @@
 - Arco
 - Debian
 - Manjaro
+- Pop!_OS
 
 # Contributing
 
