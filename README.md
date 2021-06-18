@@ -13,9 +13,9 @@
 - Soon rxfetch will be available in the AUR for arch/arch-based users. 
 
 # Installation 
-
-```git clone https://github.com/Mangeshrex/rxfetch```
-
+```
+ git clone https://github.com/Mangeshrex/rxfetch```
+```
 If you alerady have the fonts installed then just this.
 ```
  wget https://raw.githubusercontent.com/Mangeshrex/rxfetch/main/rxfetch
