@@ -117,7 +117,6 @@ echo -e "      ${c8}${c0}${c9}oo${c0}${c8}|${c0}      ${c7}pkgs${c3}  $(net_pkg)
 echo -e "     ${c8}/${c0}${c10} ${c0}${c8}'\'${c0}     ${c4}sh${c3}    $(basename "${SHELL}")"
 echo -e "    ${c9}(${c0}${c8}\_;/${c0}${c9})${c0}     ${c6}ram${c3}   $(get_mem)"
 echo -e "               ${c1}init${c3}  $(get_init)"
-echo -e "               ${c5}up${c3}   $(uptime -p | sed 's/up//')"
+echo -e "  ${c6}󰮯 ${c6}${c2}󰊠 ${c2}${c4}󰊠 ${c4}${c5}󰊠 ${c5}${c7}󰊠 ${c7}   ${c5}up${c3}   $(uptime -p | sed 's/up//')"
 echo -e "               "
-echo -e "     	${c6}󰮯 ${c6} ${c2}󰊠 ${c2} ${c4}󰊠 ${c4} ${c5}󰊠 ${c5} ${c7}󰊠  ${c7}"
 echo -e "               \033[0m"
