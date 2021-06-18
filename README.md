@@ -14,7 +14,10 @@
 
 # Installation 
 
- ```
+```git clone https://github.com/Mangeshrex/rxfetch```
+
+If you alerady have the fonts installed then just this.
+```
  wget https://raw.githubusercontent.com/Mangeshrex/rxfetch/main/rxfetch
  ```
 
