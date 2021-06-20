@@ -7,22 +7,25 @@
 
 
 # Requirements 
-- Material design icon's as for that pac-man and ghost icons. 
+- Material design icons as for that pac-man and ghost icons. 
 - You need to put the provided fonts in the fonts directory to get the icons work. 
 - If wanted you can change the source code of the fetch as per your needs. 
 - If you already use material-design-icons you can just use the above command to install it.  
 - Soon rxfetch will be available in the AUR for arch/arch-based users. 
 
 # Installation 
+
 ```
- git clone https://github.com/Mangeshrex/rxfetch```
+ git clone https://github.com/Mangeshrex/rxfetch
 ```
-If you alerady have the fonts installed then just this.
+
+If you already have the fonts installed then just this.
 ```
  wget https://raw.githubusercontent.com/Mangeshrex/rxfetch/main/rxfetch
- ```
+```
 
- (make the file executable and put rfetch in /bin or your PATH)
-
- ```chmod +x rxfetch```
- ```sudo cp $HOME/rxfetch /usr/bin ```
+Make the file executable and put rfetch in /bin or your PATH
+```
+ chmod +x rxfetch
+ sudo cp $HOME/rxfetch /usr/bin
+```
