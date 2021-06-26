@@ -1,9 +1,8 @@
 - Custom System Fetching tool which is very simple created in bash
 
 # Screenshots
-<img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/void2.png">
+<img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/void2.png" align="center" height="240px">>
 
-![Fri Jun 18 09:34:33 PM IST 2021](https://user-images.githubusercontent.com/82205152/122589184-9721db80-d07d-11eb-8334-3d59bc6f7995.png)
 
 [![forthebadge](https://forthebadge.com/images/badges/check-it-out.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 # Requirements 
