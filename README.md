@@ -1,10 +1,11 @@
 - Custom System Fetching tool which is very simple created in bash
 
 # Screenshots
-<img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/void2.png" align="center" height="240px">
+<img src="https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/void2.png" alt="Rxfetch" align="center" height="240px">
 
 
 [![forthebadge](https://forthebadge.com/images/badges/check-it-out.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+
 # Requirements 
 - Material design icons as for that pac-man and ghost icons. 
 - You need to put the provided fonts in the fonts directory to get the icons work. 
