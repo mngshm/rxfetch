@@ -30,4 +30,4 @@ Make the file executable and put rfetch in /bin or your PATH
  sudo cp $HOME/rxfetch /usr/bin
 ```
 
-# Upload your custom rxfetch script [![here](https://github.com/Mangeshrex/rxfetch/issues/21)
+# Upload your custom rxfetch script [here](https://github.com/Mangeshrex/rxfetch/issues/21)
