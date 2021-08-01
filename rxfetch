@@ -43,7 +43,7 @@ get_init() {
 
 #get total packages
 net_pkg() {
-    pack="$(which {xbps-install,apk,apt,pacman,nix,yum,rpm,dpkg,emerge} 2>/dev/null | grep -v "not found" | awk -F/ 'NR==1{print $NF}')"
+    pack="$(which {xbps-install,apk,apt,pacman,nix,dnf,rpm,dpkg,emerge} 2>/dev/null | grep -v "not found" | awk -F/ 'NR==1{print $NF}')"
   case "${pack}" in
       "xbps-install")
 	 total=$(xbps-query -l | wc -l)
@@ -60,8 +60,8 @@ net_pkg() {
       "nix")
 	 total=$(nix-env -qa --installed "*" | wc -l)
 	 ;;
-      "yum")
-	 total=$(yum list installed | wc -l)
+      "dnf")
+	 total=$(dnf list installed | wc -l)
 	 ;;
       "rpm")
 	 total=$(rpm -qa | wc -l)
