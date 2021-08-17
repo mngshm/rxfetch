@@ -27,91 +27,91 @@ c10="${bgwhite}"
 
 #getting the init
 get_init() {
-    os="$(uname -o)"
-    if [[ "$os" = "Android" ]]; then
-       echo "init.rc"
-    elif [[ ! $(pidof systemd) ]]; then
-        if [[ -f "/sbin/openrc" ]]; then
-            echo "openrc"
-        else
-         echo $(cat /proc/1/comm)
-        fi
-    else
-        echo "systemD"
-    fi
+	os="$(uname -o)"
+	if [[ "$os" = "Android" ]]; then
+		echo "init.rc"
+	elif [[ ! $(pidof systemd) ]]; then
+		if [[ -f "/sbin/openrc" ]]; then
+			echo "openrc"
+		else
+			echo $(cat /proc/1/comm)
+		fi
+	else
+		echo "systemD"
+	fi
 }
 
 #get total packages
 net_pkg() {
-    pack="$(which {xbps-install,apk,apt,pacman,nix,dnf,rpm,dpkg,emerge} 2>/dev/null | grep -v "not found" | awk -F/ 'NR==1{print $NF}')"
-  case "${pack}" in
-      "xbps-install")
-	 total=$(xbps-query -l | wc -l)
-	 ;;
-      "apk")
-	 total=$(apk search | wc -l)
-	 ;;
-      "apt")
-	 total=$(apt list --installed 2>/dev/null | wc -l)
-	 ;;
-      "pacman")
-	 total=$(pacman -Q | wc -l)
-	 ;;
-      "nix")
-	 total=$(nix-env -qa --installed "*" | wc -l)
-	 ;;
-      "dnf")
-	 total=$(dnf list installed | wc -l)
-	 ;;
-      "rpm")
-	 total=$(rpm -qa | wc -l)
-	 ;;
-      "emerge")
-	 total=$(qlist -I | wc -l)
-	 ;;
-#      "dpkg")
-#	 total=$(dpkg-query -l | wc -l)
-#	 ;;
-      "")
-	 total="Unknown"
-	 ;;
-  esac
+	pack="$(which {xbps-install,apk,apt,pacman,nix,dnf,rpm,dpkg,emerge} 2>/dev/null | grep -v "not found" | awk -F/ 'NR==1{print $NF}')"
+	case "${pack}" in
+	"xbps-install")
+		total=$(xbps-query -l | wc -l)
+		;;
+	"apk")
+		total=$(apk search | wc -l)
+		;;
+	"apt")
+		total=$(apt list --installed 2>/dev/null | wc -l)
+		;;
+	"pacman")
+		total=$(pacman -Q | wc -l)
+		;;
+	"nix")
+		total=$(nix-env -qa --installed "*" | wc -l)
+		;;
+	"dnf")
+		total=$(dnf list installed | wc -l)
+		;;
+	"rpm")
+		total=$(rpm -qa | wc -l)
+		;;
+	"emerge")
+		total=$(qlist -I | wc -l)
+		;;
+		#      "dpkg")
+		#	 total=$(dpkg-query -l | wc -l)
+		#	 ;;
+	"")
+		total="Unknown"
+		;;
+	esac
 
-  echo $total
+	echo $total
 }
 
 # check distro info for counting n.o of packages accordingly
 distro_detect() {
-    os="$(uname -o)"
-    case "${os}" in
+	os="$(uname -o)"
+	case "${os}" in
 	Android)
-	   distro="Android"
-	   if [ ! -f "${HOME}"/.termux/fonts/Material.ttf ];then
-		cp fonts/* "${HOME}"/.termux/fonts/
-		termux-reload-settings
-	   fi
-	   ;;
+		distro="Android"
+		if [ ! -f "${HOME}"/.termux/fonts/Material.ttf ]; then
+			cp fonts/* "${HOME}"/.termux/fonts/
+			termux-reload-settings
+		fi
+		;;
 	*)
-	   distro="$(source /etc/os-release && echo "${PRETTY_NAME}")"
-       if [ ! -d $HOME/.local/share/fonts ]; then
-        mkdir -p $HOME/.local/share/fonts
-       fi
-	   if [ ! -f $HOME/.local/share/fonts/Material.ttf ] && [ ! -f /usr/share/fonts/Material.ttf ]; then
-		cp -r ttf-material-design-icons/* $HOME/.local/share/fonts
-		fc-cache -vf &>/dev/null
-	   fi
-	   ;;
-    esac
+		distro="$(source /etc/os-release && echo "${PRETTY_NAME}")"
+		if [ ! -d $HOME/.local/share/fonts ]; then
+			mkdir -p $HOME/.local/share/fonts
+		fi
+		if [ ! -f $HOME/.local/share/fonts/Material.ttf ] && [ ! -f /usr/share/fonts/Material.ttf ]; then
+			cp -r ttf-material-design-icons/* $HOME/.local/share/fonts
+			fc-cache -vf &>/dev/null
+		fi
+		;;
+	esac
 }
 
 storage_info() {
-    storageused=$(df -h / | grep "/" | awk '{print $3}')
-    storageavail=$(df -h / | grep "/" | awk '{print $2}')
+	storageused=$(df -h / | grep "/" | awk '{print $3}')
+	storageavail=$(df -h / | grep "/" | awk '{print $2}')
 }
 
 # Get Memory usage
-get_mem () {
-  free --mega | sed -n -E '2s/^[^0-9]*([0-9]+) *([0-9]+).*/'"${space}"'\2 \/ \1 MB/p'
+get_mem() {
+	free --mega | sed -n -E '2s/^[^0-9]*([0-9]+) *([0-9]+).*/'"${space}"'\2 \/ \1 MB/p'
 }
 # fetch output
 distro_detect
