@@ -1,0 +1,52 @@
+#+TITLE: rxfetch
+
+* Table of contents
+:PROPERTIES:
+:TOC:
+:END:
+:CONTENTS:
+- [[#about][About]]
+- [[#screenshots][Screenshots]]
+- [[#requirements][Requirements]]
+- [[#installation][Installation]]
+:END:
+
+[[https://forthebadge.com/images/badges/check-it-out.svg]] [[https://forthebadge.com/images/badges/built-with-love.svg]]
+
+* About
+
+Custom system fetching tool which is made in bash script.
+
+* Screenshots
+
+[[https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/void2.png]]
+
+* Requirements
+
++ Material design icons as for that pacman and ghost icons.
++ You need to put the provided fonts in the fonts directory to get the icons work. 
++ If wanted you can change the source code of the fetch as per your needs. 
++ If you already use material-design-icons you can just use the above command to install it.  
++ Soon rxfetch will be available in the AUR for arch/arch-based users. 
+
+* Installation
+
+** Clone this repository & run rxfetch.
+#+BEGIN_SRC shell
+git clone https://github.com/mangeshrex/rxfetch
+cd rxfetch
+cp ttf-material-design-fonts/* $HOME/.local/share/fonts
+fc-cache -fv
+./rxfetch
+#+END_SRC
+** If you have the fonts installed then just run this command.
+#+BEGIN_SRC shell
+wget https://raw.githubusercontent.com/Mangeshrex/rxfetch/main/rxfetch && chmod +x rxfetch
+./rxfetch
+#+END_SRC
+** You can also add rxfetch to PATH by placing it in /usr/bin
+#+BEGIN_SRC shell
+sudo cp rxfetch /usr/bin
+#+END_SRC shell
+
+* Upload your custom rxfetch script [[https://github.com/Mangeshrex/rxfetch/issues/21][here]]
