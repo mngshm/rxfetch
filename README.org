@@ -31,7 +31,7 @@ Custom system fetching tool which is made in bash script.
 
 * Installation
 
-+ Arch Linux 
++ Arch Linux :
   rxfetch is available in aur, you can install it with 
 #+BEGIN_SRC shell 
   yay -S rxfetch
