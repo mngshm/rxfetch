@@ -32,8 +32,10 @@ Custom system fetching tool which is made in bash script.
 * Installation
 
 + Arch Linux 
-  rxfetch is available in aur, you can install it with `yay -S rxfetch`
-
+  rxfetch is available in aur, you can install it with 
+#+BEGIN_SRC shell 
+  yay -S rxfetch
+#+END_SRC
 ** Clone this repository & run rxfetch.
 #+BEGIN_SRC shell
 git clone https://github.com/mangeshrex/rxfetch
