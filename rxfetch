@@ -113,18 +113,51 @@ storage_info() {
 get_mem() {
 	free --mega | sed -n -E '2s/^[^0-9]*([0-9]+) *([0-9]+).*/'"${space}"'\2 \/ \1 MB/p'
 }
+
+# Get DE/WM
+# Reference: https://github.com/unixporn/robbb/blob/master/fetcher.sh
+get_de_wm() {
+	wm="${XDG_CURRENT_DESKTOP#*:}"
+	[ "$wm" ] || wm="$DESKTOP_SESSION"
+
+	# for most WMs
+	[ ! "$wm" ] && [ "$DISPLAY" ] && command -v xprop >/dev/null && {
+		id=$(xprop -root -notype _NET_SUPPORTING_WM_CHECK)
+		id=${id##* }
+		wm=$(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t | grep '^_NET_WM_NAME' | cut -d\" -f 2)
+	}
+
+	# for non-EWMH WMs
+	[ ! "$wm" ] || [ "$wm" = "LG3D" ] &&
+		wm=$(ps -e | grep -m 1 -o \
+			-e "sway" \
+			-e "kiwmi" \
+			-e "wayfire" \
+			-e "sowm" \
+			-e "catwm" \
+			-e "fvwm" \
+			-e "dwm" \
+			-e "2bwm" \
+			-e "monsterwm" \
+			-e "tinywm" \
+			-e "xmonad")
+
+	echo ${wm:-unknown}
+}
+
 # fetch output
 distro_detect
 storage_info
 echo "               "
-echo -e "               ${c1}os${c3}    ${distro} $(uname -m)"
-echo -e "               ${c2}ker${c3}   $(uname -r)"
-echo -e "     ${c3}•${c8}_${c3}•${c0}       ${c7}pkgs${c3}  $(net_pkg)"
-echo -e "     ${c8}${c0}${c9}oo${c0}${c8}|${c0}       ${c4}sh${c3}    $(basename "${SHELL}")"
-echo -e "    ${c8}/${c0}${c10} ${c0}${c8}'\'${c0}      ${c6}ram${c3}   $(get_mem)"
-echo -e "   ${c9}(${c0}${c8}\_;/${c0}${c9})${c0}      ${c1}init${c3}  $(get_init)"
-echo -e "               ${c5}up${c3}   $(uptime -p | sed 's/up//')"
-echo -e "               ${c4}disk${c3}  $storageused / $storageavail"
+echo -e "               ${c1}os${c3}     ${distro} $(uname -m)"
+echo -e "               ${c2}ker${c3}    $(uname -r)"
+echo -e "     ${c3}•${c8}_${c3}•${c0}       ${c7}pkgs${c3}   $(net_pkg)"
+echo -e "     ${c8}${c0}${c9}oo${c0}${c8}|${c0}       ${c4}sh${c3}     $(basename "${SHELL}")"
+echo -e "    ${c8}/${c0}${c10} ${c0}${c8}'\'${c0}      ${c6}ram${c3}    $(get_mem)"
+echo -e "   ${c9}(${c0}${c8}\_;/${c0}${c9})${c0}      ${c1}init${c3}   $(get_init)"
+echo -e "               ${c2}de/wm${c3}  $(get_de_wm)"
+echo -e "               ${c7}up${c3}    $(uptime -p | sed 's/up//')"
+echo -e "               ${c4}disk${c3}   $storageused / $storageavail"
 echo -e "               "
 echo -e "        ${c6}󰮯  ${c6}${c2}󰊠  ${c2}${c4}󰊠  ${c4}${c5}󰊠  ${c5}${c7}󰊠  ${c7}"
 echo -e "               \033[0m"
