@@ -30,7 +30,7 @@ get_init() {
 	os=$(uname -o)
 	if [[ $os = Android ]]; then
 		varInit="init.rc"
-	elif ! pidof systemd; then
+	elif ! pidof -q systemd; then
 		if [[ -f "/sbin/openrc" ]]; then
 			varInit="openrc"
 		else
