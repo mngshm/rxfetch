@@ -84,23 +84,8 @@ net_pkg() {
 distro_detect() {
 	os=$(uname -o)
 	case ${os} in
-	Android)
-		distro="Android"
-		if [ ! -f "${HOME}"/.termux/fonts/Material.ttf ]; then
-			cp fonts/* "${HOME}"/.termux/fonts/
-			termux-reload-settings
-		fi
-		;;
-	*)
-		distro=$(source /etc/os-release && printf '%s\n' "${PRETTY_NAME}")
-		if [ ! -d "$HOME"/.local/share/fonts ]; then
-			mkdir -p "$HOME"/.local/share/fonts
-		fi
-		if [ ! -f "$HOME"/.local/share/fonts/Material.ttf ] && [ ! -f /usr/share/fonts/Material.ttf ]; then
-			cp ttf-material-design-icons/* $HOME/.local/share/fonts
-			fc-cache -vf &>/dev/null
-		fi
-		;;
+	  Android) distro="Android";;
+	  *) distro=$(source /etc/os-release && printf '%s\n' "${PRETTY_NAME}");;
 	esac
 }
 
