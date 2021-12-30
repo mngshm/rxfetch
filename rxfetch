@@ -37,7 +37,7 @@ get_init() {
 			read -r varInit < /proc/1/comm
 		fi
 	else
-		varInit="systemD"
+		varInit="systemd"
 	fi
 }
 
