@@ -97,6 +97,11 @@ get_mem() {
 	free --mega | awk 'NR == 2 { print $3" / "$2" MB" }'
 }
 
+# Get uptime
+get_uptime() {
+	uptime -p | sed 's/up//'
+}
+
 # Get DE/WM
 # Reference: https://github.com/unixporn/robbb/blob/master/fetcher.sh
 get_de_wm() {
@@ -138,7 +143,7 @@ echo -e "     ${c8}${c0}${c9}oo${c0}${c8}|${c0}       ${c4}sh${c3}     ${SHELL##
 echo -e "    ${c8}/${c0}${c10} ${c0}${c8}'\'${c0}      ${c6}ram${c3}    $(get_mem)"
 echo -e "   ${c9}(${c0}${c8}\_;/${c0}${c9})${c0}      ${c1}init${c3}   $(get_init)"
 echo -e "               ${c2}de/wm${c3}  $(get_de_wm)"
-echo -e "               ${c7}up${c3}    $(uptime -p | sed 's/up//')"
+echo -e "               ${c7}up${c3}    $(get_uptime)"
 echo -e "               ${c6}disk${c3}   $(storage_info)"
 echo -e "               "
 echo -e "        ${c6}󰮯  ${c6}${c2}󰊠  ${c2}${c4}󰊠  ${c4}${c5}󰊠  ${c5}${c7}󰊠  ${c7}"
