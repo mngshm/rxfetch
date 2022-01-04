@@ -63,7 +63,7 @@ get_pkg_count() {
 }
 
 # Get distro name
-distro_detect() {
+get_distro_name() {
 	os=$(uname -o)
 	if [ "$os" = "Android" ] ; then
 		echo 'Android'
@@ -115,7 +115,7 @@ get_de_wm() {
 get_de_wm
 # fetch output
 echo "               "
-echo -e "               ${c1}os${c3}     $(distro_detect) $(uname -m)"
+echo -e "               ${c1}os${c3}     $(get_distro_name) $(uname -m)"
 echo -e "               ${c2}ker${c3}    $(uname -r)"
 echo -e "     ${c3}•${c8}_${c3}•${c0}       ${c7}pkgs${c3}   $(get_pkg_count)"
 echo -e "     ${c8}${c0}${c9}oo${c0}${c8}|${c0}       ${c4}sh${c3}     ${SHELL##*/}"
