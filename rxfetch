@@ -25,19 +25,17 @@ c8=${black}
 c9=${bgyellow}
 c10=${bgwhite}
 
-#getting the init
+# Get the init
 get_init() {
 	os=$(uname -o)
-	if [[ $os = Android ]]; then
-		varInit="init.rc"
-	elif ! pidof -q systemd; then
-		if [[ -f "/sbin/openrc" ]]; then
-			varInit="openrc"
-		else
-			read -r varInit < /proc/1/comm
-		fi
+	if [ "$os" = "Android" ]; then
+		echo 'init.rc'
+	elif pidof -q systemd; then
+		echo 'systemd'
+	elif [ -f '/sbin/openrc' ]; then
+		echo 'openrc'
 	else
-		varInit="systemd"
+		cut -d ' ' -f 1 /proc/1/comm
 	fi
 }
 
@@ -144,7 +142,6 @@ get_de_wm() {
 
 	varWm=${wm:-unknown}
 }
-get_init
 net_pkg
 get_de_wm
 # fetch output
@@ -155,7 +152,7 @@ echo -e "               ${c2}ker${c3}    $(uname -r)"
 echo -e "     ${c3}•${c8}_${c3}•${c0}       ${c7}pkgs${c3}   ${varPkg}"
 echo -e "     ${c8}${c0}${c9}oo${c0}${c8}|${c0}       ${c4}sh${c3}     ${SHELL##*/}"
 echo -e "    ${c8}/${c0}${c10} ${c0}${c8}'\'${c0}      ${c6}ram${c3}    $(get_mem)"
-echo -e "   ${c9}(${c0}${c8}\_;/${c0}${c9})${c0}      ${c1}init${c3}   ${varInit}"
+echo -e "   ${c9}(${c0}${c8}\_;/${c0}${c9})${c0}      ${c1}init${c3}   $(get_init)"
 echo -e "               ${c2}de/wm${c3}  ${varWm}"
 echo -e "               ${c7}up${c3}    $(uptime -p | sed 's/up//')"
 echo -e "               ${c6}disk${c3}   $(storage_info)"
