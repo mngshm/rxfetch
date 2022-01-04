@@ -110,7 +110,7 @@ storage_info() {
 
 # Get Memory usage
 get_mem() {
-	free --mega | sed -n -E '2s/^[^0-9]*([0-9]+) *([0-9]+).*/'"${space}"'\2 \/ \1 MB/p'
+	free --mega | awk 'NR == 2 { print $3" / "$2" MB" }'
 }
 
 # Get DE/WM
