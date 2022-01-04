@@ -40,7 +40,7 @@ get_init() {
 }
 
 # Get count of packages installed
-net_pkg() {
+get_pkg_count() {
 	package_managers=('xbps-install' 'apk' 'apt' 'pacman' 'nix' 'dnf' 'rpm' 'emerge')
 	for package_manager in ${package_managers[@]}; do
 		if command -v $package_manager 2>/dev/null>&2; then
@@ -132,7 +132,7 @@ distro_detect
 echo "               "
 echo -e "               ${c1}os${c3}     ${distro} $(uname -m)"
 echo -e "               ${c2}ker${c3}    $(uname -r)"
-echo -e "     ${c3}•${c8}_${c3}•${c0}       ${c7}pkgs${c3}   $(net_pkg)"
+echo -e "     ${c3}•${c8}_${c3}•${c0}       ${c7}pkgs${c3}   $(get_pkg_count)"
 echo -e "     ${c8}${c0}${c9}oo${c0}${c8}|${c0}       ${c4}sh${c3}     ${SHELL##*/}"
 echo -e "    ${c8}/${c0}${c10} ${c0}${c8}'\'${c0}      ${c6}ram${c3}    $(get_mem)"
 echo -e "   ${c9}(${c0}${c8}\_;/${c0}${c9})${c0}      ${c1}init${c3}   $(get_init)"
