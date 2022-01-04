@@ -62,28 +62,14 @@ get_pkg_count() {
 	echo 'Unknown'
 }
 
-# check distro info for counting n.o of packages accordingly
+# Get distro name
 distro_detect() {
 	os=$(uname -o)
-	case ${os} in
-	Android)
-		distro="Android"
-		if [ ! -f "${HOME}"/.termux/fonts/Material.ttf ]; then
-			cp fonts/* "${HOME}"/.termux/fonts/
-			termux-reload-settings
-		fi
-		;;
-	*)
-		distro=$(source /etc/os-release && printf '%s\n' "${PRETTY_NAME}")
-		if [ ! -d "$HOME"/.local/share/fonts ]; then
-			mkdir -p "$HOME"/.local/share/fonts
-		fi
-		if [ ! -f "$HOME"/.local/share/fonts/Material.ttf ] && [ ! -f /usr/share/fonts/Material.ttf ]; then
-			cp ttf-material-design-icons/* $HOME/.local/share/fonts
-			fc-cache -vf &>/dev/null
-		fi
-		;;
-	esac
+	if [ "$os" = "Android" ] ; then
+		echo 'Android'
+	else
+		awk -F '"' '/PRETTY_NAME/ { print $2 }' /etc/os-release
+	fi
 }
 
 # Get root partition space used
@@ -128,9 +114,8 @@ get_de_wm() {
 }
 get_de_wm
 # fetch output
-distro_detect
 echo "               "
-echo -e "               ${c1}os${c3}     ${distro} $(uname -m)"
+echo -e "               ${c1}os${c3}     $(distro_detect) $(uname -m)"
 echo -e "               ${c2}ker${c3}    $(uname -r)"
 echo -e "     ${c3}•${c8}_${c3}•${c0}       ${c7}pkgs${c3}   $(get_pkg_count)"
 echo -e "     ${c8}${c0}${c9}oo${c0}${c8}|${c0}       ${c4}sh${c3}     ${SHELL##*/}"
