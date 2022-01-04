@@ -129,7 +129,7 @@ get_de_wm() {
 }
 
 setup_fonts
-# fetch output
+
 echo "               "
 echo -e "               ${c1}os${c3}     $(get_distro_name) $(uname -m)"
 echo -e "               ${c2}ker${c3}    $(uname -r)"
