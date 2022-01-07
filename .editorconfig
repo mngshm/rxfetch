@@ -1,0 +1,19 @@
+# Don't search for other .editconfig files
+root = true
+
+[*]
+
+# Unix-style newlines
+end_of_line = lf
+
+# There a newline at the end of the file
+insert_final_newline = true
+
+# Trailing whitespaces, no one needs them
+trim_trailing_whitespace = true
+
+# Why would anyone use anything else?
+charset = utf-8
+
+# This is just what we use, sorry if you disagree
+indent_style = tab
