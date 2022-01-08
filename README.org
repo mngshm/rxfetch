@@ -24,15 +24,15 @@ Custom system fetching tool which is made in bash script.
 * Requirements
 
 + Material design icons as for that pacman and ghost icons.
-+ You need to put the provided fonts in the fonts directory to get the icons work. 
-+ If wanted you can change the source code of the fetch as per your needs. 
-+ If you already use material-design-icons you can just use the above command to install it.  
++ You need to put the provided fonts in the fonts directory to get the icons work.
++ If wanted you can change the source code of the fetch as per your needs.
++ If you already use material-design-icons you can just use the above command to install it.
 
 * Installation
 
 + Arch Linux:
-  rxfetch is available in the AUR, you can install it with 
-#+BEGIN_SRC shell 
+  rxfetch is available in the AUR, you can install it with
+#+BEGIN_SRC shell
   yay -S rxfetch
 #+END_SRC
 ** Clone this repository & run rxfetch.
@@ -48,9 +48,9 @@ fc-cache -fv
 wget https://raw.githubusercontent.com/Mangeshrex/rxfetch/main/rxfetch && chmod +x rxfetch
 ./rxfetch
 #+END_SRC
-** You can also add rxfetch to PATH by placing it in /usr/bin
+** You can also add rxfetch to PATH by placing it in /usr/local/bin
 #+BEGIN_SRC shell
-sudo cp rxfetch /usr/bin
+sudo cp rxfetch /usr/local/bin
 #+END_SRC shell
 
 * Upload your custom rxfetch script [[https://github.com/Mangeshrex/rxfetch/issues/21][here]]
