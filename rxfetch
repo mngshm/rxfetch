@@ -81,8 +81,10 @@ get_pkg_count() {
 get_snap_count() {
 	if command -v snap 2>/dev/null>&2; then
 		count=$(snap list | wc -l)
-		count=$((count-1))
-		echo $count
+
+		# snap list shows a header line
+		echo $((count-1))
+
 		return
 	fi
 
@@ -92,8 +94,7 @@ get_snap_count() {
 # Get count of flatpaks installed
 get_flatpak_count() {
 	if ! command -v flatpak 2>/dev/null>&2; then
-		count=$(flatpak list | wc -l)
-		echo $count
+		flatpak list | wc -l
 		return
 	fi
 
