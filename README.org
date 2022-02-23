@@ -19,7 +19,7 @@ Custom system fetching tool which is made in bash script.
 
 * Screenshots
 
-[[https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/void2.png]]
+[[https://raw.githubusercontent.com/Mangeshrex/rfetch/main/screenshots/void-2.png]]
 
 * Requirements
 
