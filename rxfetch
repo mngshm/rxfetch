@@ -53,16 +53,16 @@ get_init() {
 get_pkg_count() {
 	package_managers=('xbps-install' 'apk' 'apt' 'pacman' 'nix' 'dnf' 'rpm' 'emerge')
 	for package_manager in "${package_managers[@]}"; do
-		if command -v "$package_manager" 2>/dev/null>&2; then
+		if command -v "$package_manager" 2>/dev/null >&2; then
 			case "$package_manager" in
-				xbps-install ) xbps-query -l | wc -l ;;
-				apk ) apk search | wc -l ;;
-				apt ) echo $(( $(apt list --installed 2>/dev/null | wc -l) - 1 )) ;;
-				pacman ) pacman -Q | wc -l ;;
-				nix ) nix-env -qa --installed '*' | wc -l ;;
-				dnf ) dnf list installed | wc -l ;;
-				rpm ) rpm -qa | wc -l ;;
-				emerge ) qlist -I | wc -l ;;
+			xbps-install) xbps-query -l | wc -l ;;
+			apk) apk search | wc -l ;;
+			apt) echo $(($(apt list --installed 2>/dev/null | wc -l) - 1)) ;;
+			pacman) pacman -Q | wc -l ;;
+			nix) nix-env -qa --installed '*' | wc -l ;;
+			dnf) dnf list installed | wc -l ;;
+			rpm) rpm -qa | wc -l ;;
+			emerge) qlist -I | wc -l ;;
 			esac
 
 			# if a package manager is found return from the function
@@ -74,11 +74,11 @@ get_pkg_count() {
 
 # Get count of snaps installed
 get_snap_count() {
-	if command -v snap 2>/dev/null>&2; then
+	if command -v snap 2>/dev/null >&2; then
 		count=$(snap list | wc -l)
 
 		# snap list shows a header line
-		echo $((count-1))
+		echo $((count - 1))
 
 		return
 	fi
@@ -88,7 +88,7 @@ get_snap_count() {
 
 # Get count of flatpaks installed
 get_flatpak_count() {
-	if command -v flatpak 2>/dev/null>&2; then
+	if command -v flatpak 2>/dev/null >&2; then
 		flatpak list | wc -l
 		return
 	fi
@@ -134,7 +134,7 @@ get_package_info() {
 # Get distro name
 get_distro_name() {
 	os=$(uname -o)
-	if [ "$os" = "Android" ] ; then
+	if [ "$os" = "Android" ]; then
 		echo 'Android'
 	else
 		awk -F '"' '/PRETTY_NAME/ { print $2 }' /etc/os-release
@@ -143,17 +143,15 @@ get_distro_name() {
 
 # Get root partition space used
 get_storage_info() {
-    if [ "$os" = Android ]; then
-        _MOUNTED_ON="/data"
-        _GREP_ONE_ROW="$(df -h | grep ${_MOUNTED_ON})"
-        _SIZE="$(echo "${_GREP_ONE_ROW}" | awk '{print $2}')"
-        _USED="$(echo "${_GREP_ONE_ROW}" | awk '{print $3}')"
-        _USE="$(echo "${_GREP_ONE_ROW}" | awk '{print $5}' | sed 's/%//')"
-        _MOUNTED="$(echo "${_GREP_ONE_ROW}" | awk '{print $6}')"
-        echo "$(head -n1 <<< "${_USED}")B / $(head -n1 <<< "${_SIZE}")B"
-    else
-	    df -h --output=used,size / | awk 'NR == 2 { print $1" / "$2 }'
-    fi
+	if [ "$os" = Android ]; then
+		_MOUNTED_ON="/data"
+		_GREP_ONE_ROW="$(df -h | grep ${_MOUNTED_ON})"
+		_SIZE="$(echo "${_GREP_ONE_ROW}" | awk '{print $2}')"
+		_USED="$(echo "${_GREP_ONE_ROW}" | awk '{print $3}')"
+		echo "$(head -n1 <<<"${_USED}")B / $(head -n1 <<<"${_SIZE}")B"
+	else
+		df -h --output=used,size / | awk 'NR == 2 { print $1" / "$2 }'
+	fi
 }
 
 # Get Memory usage
@@ -202,7 +200,7 @@ setup_fonts
 echo "               "
 
 if [ "$os" = Android ]; then
-    echo -e "               ${c5}phone${c3}  $(getprop ro.product.brand) $(getprop ro.product.model)"
+	echo -e "               ${c5}phone${c3}  $(getprop ro.product.brand) $(getprop ro.product.model)"
 fi
 
 echo -e "               ${c1}os${c3}     $(get_distro_name) $(uname -m)"
@@ -221,7 +219,7 @@ echo -e "               ${c6}disk${c3}   $(get_storage_info)"
 echo -e "               "
 
 if [ "$os" != Android ]; then
-    echo -e "        ${c6}󰮯  ${c6}${c2}󰊠  ${c2}${c4}󰊠  ${c4}${c5}󰊠  ${c5}${c7}󰊠  ${c7}"
+	echo -e "        ${c6}󰮯  ${c6}${c2}󰊠  ${c2}${c4}󰊠  ${c4}${c5}󰊠  ${c5}${c7}󰊠  ${c7}"
 fi
 
 echo -e "               \033[0m"
