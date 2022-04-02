@@ -174,9 +174,9 @@ get_de_wm() {
 
 	# for most WMs
 	[ ! "$wm" ] && [ "$DISPLAY" ] && command -v xprop >/dev/null && {
-		id=$(xprop -root -notype _NET_SUPPORTING_WM_CHECK)
+		id=$(xprop -root -notype _NET_SUPPORTING_WM_CHECK 2>/dev/null)
 		id=${id##* }
-		wm=$(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t | grep '^_NET_WM_NAME' | cut -d\" -f 2)
+		wm=$(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t 2>/dev/null | grep '^_NET_WM_NAME' | cut -d\" -f 2)
 	}
 
 	# for non-EWMH WMs
@@ -206,7 +206,11 @@ echo -e "     ${c3}•${c8}_${c3}•${c0}       ${c7}pkgs${c3}   $(get_package_i
 echo -e "     ${c8}${c0}${c9}oo${c0}${c8}|${c0}       ${c4}sh${c3}     ${SHELL##*/}"
 echo -e "    ${c8}/${c0}${c10} ${c0}${c8}'\'${c0}      ${c6}ram${c3}    $(get_mem)"
 echo -e "   ${c9}(${c0}${c8}\_;/${c0}${c9})${c0}      ${c1}init${c3}   $(get_init)"
-echo -e "               ${c2}de/wm${c3}  $(get_de_wm)"
+
+if [ -n "$DISPLAY" ]; then
+	echo -e "               ${c2}de/wm${c3}  $(get_de_wm)"
+fi
+
 echo -e "               ${c7}up${c3}    $(get_uptime)"
 echo -e "               ${c6}disk${c3}   $(get_storage_info)"
 echo -e "               "
