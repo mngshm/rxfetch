@@ -52,8 +52,8 @@ get_init() {
 # Get count of packages installed
 get_pkg_count() {
 	package_managers=('xbps-install' 'apk' 'apt' 'pacman' 'nix' 'dnf' 'rpm' 'emerge')
-	for package_manager in ${package_managers[@]}; do
-		if command -v $package_manager 2>/dev/null>&2; then
+	for package_manager in "${package_managers[@]}"; do
+		if command -v "$package_manager" 2>/dev/null>&2; then
 			case "$package_manager" in
 				xbps-install ) xbps-query -l | wc -l ;;
 				apk ) apk search | wc -l ;;
@@ -102,29 +102,29 @@ get_package_info() {
 	snap_count=$(get_snap_count)
 	flatpak_count=$(get_flatpak_count)
 
-	if [ $pkg_count -ne 0 ]; then
-		echo -n $pkg_count
-		if [ $snap_count -ne 0 ]; then
+	if [ "$pkg_count" -ne 0 ]; then
+		echo -n "$pkg_count"
+		if [ "$snap_count" -ne 0 ]; then
 			echo -n " ($snap_count snaps"
-			if [ $flatpak_count -ne 0 ]; then
+			if [ "$flatpak_count" -ne 0 ]; then
 				echo ", $flatpak_count flatpaks)"
 			else
 				echo ")"
 			fi
-		elif [ $flatpak_count -ne 0 ]; then
+		elif [ "$flatpak_count" -ne 0 ]; then
 			echo " ($flatpak_count flatpaks)"
 		else
 			echo ""
 		fi
-	elif [ $snap_count -ne 0 ]; then
+	elif [ "$snap_count" -ne 0 ]; then
 		echo -n "$snap_count snaps"
 
-		if [ $flatpak_count -ne 0 ]; then
+		if [ "$flatpak_count" -ne 0 ]; then
 			echo ", $flatpak_count flatpaks"
 		else
 			echo ""
 		fi
-	elif [ $flatpak_count -ne 0 ]; then
+	elif [ "$flatpak_count" -ne 0 ]; then
 		echo "$flatpak_count flatpaks"
 	else
 		echo "Unknown"
@@ -146,11 +146,11 @@ get_storage_info() {
     if [ "$os" = Android ]; then
         _MOUNTED_ON="/data"
         _GREP_ONE_ROW="$(df -h | grep ${_MOUNTED_ON})"
-        _SIZE="$(echo ${_GREP_ONE_ROW} | awk '{print $2}')"
-        _USED="$(echo ${_GREP_ONE_ROW} | awk '{print $3}')"
-        _USE="$(echo ${_GREP_ONE_ROW} | awk '{print $5}' | sed 's/%//')"
-        _MOUNTED="$(echo ${_GREP_ONE_ROW} | awk '{print $6}')"
-        echo "${_USED}B / ${_SIZE}B"
+        _SIZE="$(echo "${_GREP_ONE_ROW}" | awk '{print $2}')"
+        _USED="$(echo "${_GREP_ONE_ROW}" | awk '{print $3}')"
+        _USE="$(echo "${_GREP_ONE_ROW}" | awk '{print $5}' | sed 's/%//')"
+        _MOUNTED="$(echo "${_GREP_ONE_ROW}" | awk '{print $6}')"
+        echo "$(head -n1 <<< "${_USED}")B / $(head -n1 <<< "${_SIZE}")B"
     else
 	    df -h --output=used,size / | awk 'NR == 2 { print $1" / "$2 }'
     fi
@@ -181,7 +181,7 @@ get_de_wm() {
 
 	# for non-EWMH WMs
 	[ ! "$wm" ] || [ "$wm" = "LG3D" ] &&
-		wm=$(ps -e | grep -m 1 -o \
+		wm=$(pgrep -m 1 -o \
 			-e "sway" \
 			-e "kiwmi" \
 			-e "wayfire" \
@@ -194,7 +194,7 @@ get_de_wm() {
 			-e "tinywm" \
 			-e "xmonad")
 
-	echo ${wm:-unknown}
+	echo "${wm:-unknown}"
 }
 
 setup_fonts
