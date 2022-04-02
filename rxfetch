@@ -143,7 +143,17 @@ get_distro_name() {
 
 # Get root partition space used
 get_storage_info() {
-	df -h --output=used,size / | awk 'NR == 2 { print $1" / "$2 }'
+    if [ "$os" = Android ]; then
+        _MOUNTED_ON="/data"
+        _GREP_ONE_ROW="$(df -h | grep ${_MOUNTED_ON})"
+        _SIZE="$(echo ${_GREP_ONE_ROW} | awk '{print $2}')"
+        _USED="$(echo ${_GREP_ONE_ROW} | awk '{print $3}')"
+        _USE="$(echo ${_GREP_ONE_ROW} | awk '{print $5}' | sed 's/%//')"
+        _MOUNTED="$(echo ${_GREP_ONE_ROW} | awk '{print $6}')"
+        echo "${_USED}B / ${_SIZE}B"
+    else
+	    df -h --output=used,size / | awk 'NR == 2 { print $1" / "$2 }'
+    fi
 }
 
 # Get Memory usage
