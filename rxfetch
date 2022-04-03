@@ -28,10 +28,13 @@ c10=${bgwhite}
 # Setup fonts
 setup_fonts() {
 	os=$(uname -o)
-	if ! fc-match :family='Material' | grep -Eq '^Material.ttf'; then
-		mkdir -p "$HOME/.local/share/fonts"
-		cp ttf-material-design-icons/* "$HOME/.local/share/fonts"
-		fc-cache -vf &>/dev/null
+
+	if [ "$os" != Android ]; then
+		if ! fc-match :family='Material' | grep -Eq '^Material.ttf'; then
+			mkdir -p "$HOME/.local/share/fonts"
+			cp ttf-material-design-icons/* "$HOME/.local/share/fonts"
+			fc-cache -vf &>/dev/null
+		fi
 	fi
 }
 
