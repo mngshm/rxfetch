@@ -28,12 +28,7 @@ c10=${bgwhite}
 # Setup fonts
 setup_fonts() {
 	os=$(uname -o)
-	if [ "$os" = "Android" ]; then
-		if [ ! -f "$HOME/.termux/fonts/Material.ttf" ]; then
-			cp ttf-material-design-icons/* "$HOME/.termux/fonts/"
-			termux-reload-settings
-		fi
-	elif ! fc-match :family='Material' | grep -Eq '^Material.ttf'; then
+	if ! fc-match :family='Material' | grep -Eq '^Material.ttf'; then
 		mkdir -p "$HOME/.local/share/fonts"
 		cp ttf-material-design-icons/* "$HOME/.local/share/fonts"
 		fc-cache -vf &>/dev/null
@@ -57,17 +52,17 @@ get_init() {
 # Get count of packages installed
 get_pkg_count() {
 	package_managers=('xbps-install' 'apk' 'apt' 'pacman' 'nix' 'dnf' 'rpm' 'emerge')
-	for package_manager in ${package_managers[@]}; do
-		if command -v $package_manager 2>/dev/null>&2; then
+	for package_manager in "${package_managers[@]}"; do
+		if command -v "$package_manager" 2>/dev/null >&2; then
 			case "$package_manager" in
-				xbps-install ) xbps-query -l | wc -l ;;
-				apk ) apk search | wc -l ;;
-				apt ) apt list --installed 2>/dev/null | wc -l ;;
-				pacman ) pacman -Q | wc -l ;;
-				nix ) nix-env -qa --installed '*' | wc -l ;;
-				dnf ) dnf list installed | wc -l ;;
-				rpm ) rpm -qa | wc -l ;;
-				emerge ) qlist -I | wc -l ;;
+			xbps-install) xbps-query -l | wc -l ;;
+			apk) apk search | wc -l ;;
+			apt) echo $(($(apt list --installed 2>/dev/null | wc -l) - 1)) ;;
+			pacman) pacman -Q | wc -l ;;
+			nix) nix-env -qa --installed '*' | wc -l ;;
+			dnf) dnf list installed | wc -l ;;
+			rpm) rpm -qa | wc -l ;;
+			emerge) qlist -I | wc -l ;;
 			esac
 
 			# if a package manager is found return from the function
@@ -79,11 +74,11 @@ get_pkg_count() {
 
 # Get count of snaps installed
 get_snap_count() {
-	if command -v snap 2>/dev/null>&2; then
+	if command -v snap 2>/dev/null >&2; then
 		count=$(snap list | wc -l)
 
 		# snap list shows a header line
-		echo $((count-1))
+		echo $((count - 1))
 
 		return
 	fi
@@ -93,7 +88,7 @@ get_snap_count() {
 
 # Get count of flatpaks installed
 get_flatpak_count() {
-	if command -v flatpak 2>/dev/null>&2; then
+	if command -v flatpak 2>/dev/null >&2; then
 		flatpak list | wc -l
 		return
 	fi
@@ -107,29 +102,29 @@ get_package_info() {
 	snap_count=$(get_snap_count)
 	flatpak_count=$(get_flatpak_count)
 
-	if [ $pkg_count -ne 0 ]; then
-		echo -n $pkg_count
-		if [ $snap_count -ne 0 ]; then
+	if [ "$pkg_count" -ne 0 ]; then
+		echo -n "$pkg_count"
+		if [ "$snap_count" -ne 0 ]; then
 			echo -n " ($snap_count snaps"
-			if [ $flatpak_count -ne 0 ]; then
+			if [ "$flatpak_count" -ne 0 ]; then
 				echo ", $flatpak_count flatpaks)"
 			else
 				echo ")"
 			fi
-		elif [ $flatpak_count -ne 0 ]; then
+		elif [ "$flatpak_count" -ne 0 ]; then
 			echo " ($flatpak_count flatpaks)"
 		else
 			echo ""
 		fi
-	elif [ $snap_count -ne 0 ]; then
+	elif [ "$snap_count" -ne 0 ]; then
 		echo -n "$snap_count snaps"
 
-		if [ $flatpak_count -ne 0 ]; then
+		if [ "$flatpak_count" -ne 0 ]; then
 			echo ", $flatpak_count flatpaks"
 		else
 			echo ""
 		fi
-	elif [ $flatpak_count -ne 0 ]; then
+	elif [ "$flatpak_count" -ne 0 ]; then
 		echo "$flatpak_count flatpaks"
 	else
 		echo "Unknown"
@@ -139,7 +134,7 @@ get_package_info() {
 # Get distro name
 get_distro_name() {
 	os=$(uname -o)
-	if [ "$os" = "Android" ] ; then
+	if [ "$os" = "Android" ]; then
 		echo 'Android'
 	else
 		awk -F '"' '/PRETTY_NAME/ { print $2 }' /etc/os-release
@@ -148,7 +143,15 @@ get_distro_name() {
 
 # Get root partition space used
 get_storage_info() {
-	df -h --output=used,size / | awk 'NR == 2 { print $1" / "$2 }'
+	if [ "$os" = Android ]; then
+		_MOUNTED_ON="/data"
+		_GREP_ONE_ROW="$(df -h | grep ${_MOUNTED_ON})"
+		_SIZE="$(echo "${_GREP_ONE_ROW}" | awk '{print $2}')"
+		_USED="$(echo "${_GREP_ONE_ROW}" | awk '{print $3}')"
+		echo "$(head -n1 <<<"${_USED}")B / $(head -n1 <<<"${_SIZE}")B"
+	else
+		df -h --output=used,size / | awk 'NR == 2 { print $1" / "$2 }'
+	fi
 }
 
 # Get Memory usage
@@ -169,14 +172,14 @@ get_de_wm() {
 
 	# for most WMs
 	[ ! "$wm" ] && [ "$DISPLAY" ] && command -v xprop >/dev/null && {
-		id=$(xprop -root -notype _NET_SUPPORTING_WM_CHECK)
+		id=$(xprop -root -notype _NET_SUPPORTING_WM_CHECK 2>/dev/null)
 		id=${id##* }
-		wm=$(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t | grep '^_NET_WM_NAME' | cut -d\" -f 2)
+		wm=$(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t 2>/dev/null | grep '^_NET_WM_NAME' | cut -d\" -f 2)
 	}
 
 	# for non-EWMH WMs
 	[ ! "$wm" ] || [ "$wm" = "LG3D" ] &&
-		wm=$(ps -e | grep -m 1 -o \
+		wm=$(pgrep -m 1 -o \
 			-e "sway" \
 			-e "kiwmi" \
 			-e "wayfire" \
@@ -189,21 +192,34 @@ get_de_wm() {
 			-e "tinywm" \
 			-e "xmonad")
 
-	echo ${wm:-unknown}
+	echo "${wm:-unknown}"
 }
 
 setup_fonts
 
 echo "               "
+
+if [ "$os" = Android ]; then
+	echo -e "               ${c5}phone${c3}  $(getprop ro.product.brand) $(getprop ro.product.model)"
+fi
+
 echo -e "               ${c1}os${c3}     $(get_distro_name) $(uname -m)"
 echo -e "               ${c2}ker${c3}    $(uname -r)"
 echo -e "     ${c3}•${c8}_${c3}•${c0}       ${c7}pkgs${c3}   $(get_package_info)"
 echo -e "     ${c8}${c0}${c9}oo${c0}${c8}|${c0}       ${c4}sh${c3}     ${SHELL##*/}"
 echo -e "    ${c8}/${c0}${c10} ${c0}${c8}'\'${c0}      ${c6}ram${c3}    $(get_mem)"
 echo -e "   ${c9}(${c0}${c8}\_;/${c0}${c9})${c0}      ${c1}init${c3}   $(get_init)"
-echo -e "               ${c2}de/wm${c3}  $(get_de_wm)"
+
+if [ -n "$DISPLAY" ]; then
+	echo -e "               ${c2}de/wm${c3}  $(get_de_wm)"
+fi
+
 echo -e "               ${c7}up${c3}    $(get_uptime)"
 echo -e "               ${c6}disk${c3}   $(get_storage_info)"
 echo -e "               "
-echo -e "        ${c6}󰮯  ${c6}${c2}󰊠  ${c2}${c4}󰊠  ${c4}${c5}󰊠  ${c5}${c7}󰊠  ${c7}"
+
+if [ "$os" != Android ]; then
+	echo -e "        ${c6}󰮯  ${c6}${c2}󰊠  ${c2}${c4}󰊠  ${c4}${c5}󰊠  ${c5}${c7}󰊠  ${c7}"
+fi
+
 echo -e "               \033[0m"
