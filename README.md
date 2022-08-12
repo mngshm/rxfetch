@@ -1,6 +1,8 @@
 # Rxfetch 
 
-[[https://raw.githubusercontent.com/Mangeshrex/rxfetch/main/screenshots/ss.png]]
+<div align="center">
+<img src="./screenshots/ss.png">
+</div> 
 
 <p align="center"> 
 <img src="https://img.shields.io/github/stars/Everblush/terminal-emulators?color=e57474&labelColor=1e2528&style=for-the-badge"> <img src="https://img.shields.io/github/issues/Everblush/terminal-emulators?color=67b0e8&labelColor=1e2528&style=for-the-badge">
