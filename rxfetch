@@ -25,11 +25,13 @@ c8=${black}
 c9=${bgyellow}
 c10=${bgwhite}
 
+# Get the kernel
+# This will decide the further actionsvand command usages as bsd and gnu tools even with same name are DIFFERENT.
+kernel=$(uname -s)
+
 # Setup fonts
 setup_fonts() {
-	os=$(uname -o)
-
-	if [ "$os" != Android ]; then
+	if [ "$kernel" != Android ]; then
 		if ! fc-match :family='Material' | grep -Eq '^Material.ttf'; then
 			mkdir -p "$HOME/.local/share/fonts"
 			cp ttf-material-design-icons/* "$HOME/.local/share/fonts"
@@ -40,8 +42,7 @@ setup_fonts() {
 
 # Get the init
 get_init() {
-	os=$(uname -o)
-	if [ "$os" = "Android" ]; then
+	if [ "$kernel" = "Android" ]; then
 		echo 'init.rc'
 	elif pidof -q systemd; then
 		echo 'systemd'
@@ -136,8 +137,7 @@ get_package_info() {
 
 # Get distro name
 get_distro_name() {
-	os=$(uname -o)
-	if [ "$os" = "Android" ]; then
+	if [ "$kernel" = "Android" ]; then
 		echo 'Android'
 	else
 		awk -F '"' '/PRETTY_NAME/ { print $2 }' /etc/os-release
@@ -146,7 +146,7 @@ get_distro_name() {
 
 # Get root partition space used
 get_storage_info() {
-	if [ "$os" = Android ]; then
+	if [ "$kernel" = Android ]; then
 		_MOUNTED_ON="/data"
 		_GREP_ONE_ROW="$(df -h | grep ${_MOUNTED_ON})"
 		_SIZE="$(echo "${_GREP_ONE_ROW}" | awk '{print $2}')"
@@ -202,7 +202,7 @@ setup_fonts
 
 echo "               "
 
-if [ "$os" = Android ]; then
+if [ "$kernel" = Android ]; then
 	echo -e "               ${c5}phone${c3}  $(getprop ro.product.brand) $(getprop ro.product.model)"
 fi
 
@@ -221,7 +221,7 @@ echo -e "               ${c7}up${c3}    $(get_uptime)"
 echo -e "               ${c6}disk${c3}   $(get_storage_info)"
 echo -e "               "
 
-if [ "$os" != Android ]; then
+if [ "$kernel" != Android ]; then
 	echo -e "        ${c6}󰮯  ${c6}${c2}󰊠  ${c2}${c4}󰊠  ${c4}${c5}󰊠  ${c5}${c7}󰊠  ${c7}"
 fi
 
