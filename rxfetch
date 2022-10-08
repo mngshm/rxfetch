@@ -44,12 +44,12 @@ setup_fonts() {
 get_init() {
 	if [ "$kernel" = "Android" ]; then
 		echo 'init.rc'
+	elif [ "$kernel" = "Darwin" ]; then
+		echo 'launchd'
 	elif pidof -q systemd; then
 		echo 'systemd'
 	elif [ -f '/sbin/openrc' ]; then
 		echo 'openrc'
-	elif [ "$kernel" = "Darwin" ]; then
-		echo 'launchd'
 	else
 		cut -d ' ' -f 1 /proc/1/comm
 	fi
