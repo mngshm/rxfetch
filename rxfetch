@@ -261,7 +261,7 @@ echo -e "               ${c7}up${c3}    $(get_uptime)"
 echo -e "               ${c6}disk${c3}   $(get_storage_info)"
 echo -e "               "
 
-if [ "$kernel" != Android ]; then
+if [ "$kernel" != Android ] && [ "$kernel" != Darwin ]; then
 	echo -e "        ${c6}󰮯  ${c6}${c2}󰊠  ${c2}${c4}󰊠  ${c4}${c5}󰊠  ${c5}${c7}󰊠  ${c7}"
 fi
 
