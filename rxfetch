@@ -48,6 +48,8 @@ get_init() {
 		echo 'systemd'
 	elif [ -f '/sbin/openrc' ]; then
 		echo 'openrc'
+	elif [ "$kernel" = "Darwin" ]; then
+		echo 'launchd'
 	else
 		cut -d ' ' -f 1 /proc/1/comm
 	fi
@@ -155,6 +157,9 @@ get_package_info() {
 get_distro_name() {
 	if [ "$kernel" = "Android" ]; then
 		echo 'Android'
+	elif [ "$kernel" = "Darwin" ]; then
+		macos_version=$(/usr/libexec/PlistBuddy -c "Print:ProductVersion" /System/Library/CoreServices/SystemVersion.plist)
+		echo "macOS $(uname) $macos_version"
 	else
 		awk -F '"' '/PRETTY_NAME/ { print $2 }' /etc/os-release
 	fi
