@@ -196,7 +196,13 @@ get_mem() {
 
 # Get uptime
 get_uptime() {
-	uptime -p | sed 's/up//'
+	if [ "$kernel" = "Darwin" ]; then
+		up=$(uptime | awk 'NR==1{print $3}')
+		up=${up::-1}
+		echo " $up"
+	else
+		uptime -p | sed 's/up//'
+	fi
 }
 
 # Get DE/WM
