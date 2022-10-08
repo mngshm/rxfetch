@@ -32,7 +32,7 @@ kernel=$(uname -s)
 # Setup fonts
 setup_fonts() {
 	if [ "$kernel" != Android ]; then
-		if ! fc-match :family='Material' | grep -Eq '^Material.ttf'; then
+		if ! fc-match :family='Material' | grep -Eq '^Material.ttf' ; then
 			mkdir -p "$HOME/.local/share/fonts"
 			cp ttf-material-design-icons/* "$HOME/.local/share/fonts"
 			fc-cache -vf &>/dev/null
@@ -162,8 +162,7 @@ get_distro_name() {
 	if [ "$kernel" = "Android" ]; then
 		echo 'Android'
 	elif [ "$kernel" = "Darwin" ]; then
-		macos_version=$(/usr/libexec/PlistBuddy -c "Print:ProductVersion" /System/Library/CoreServices/SystemVersion.plist)
-		echo "macOS $(uname) $macos_version"
+		echo "macOS $(uname) $(sw_vers -productVersion)"
 	else
 		awk -F '"' '/PRETTY_NAME/ { print $2 }' /etc/os-release
 	fi
@@ -192,8 +191,7 @@ get_mem() {
 	if [ "$kernel" = "Darwin" ]; then
 		total_mem=$(($(sysctl -a | awk '/hw./' | awk '/mem/' | awk 'NR==1{print $2}') / 2**20 ))
 		used_mem=$(vm_stat | grep -E "Pageouts:" | awk 'NR==1{print $2}')
-		used_mem=${used_mem::-1}
-		echo "$used_mem / $total_mem MB"
+		echo "${used_mem::-1} / $total_mem MB"
 	else
 		free --mega | awk 'NR == 2 { print $3" / "$2" MB" }'
 	fi
@@ -203,8 +201,7 @@ get_mem() {
 get_uptime() {
 	if [ "$kernel" = "Darwin" ]; then
 		up=$(uptime | awk 'NR==1{print $3}')
-		up=${up::-1}
-		echo " $up"
+		echo " ${up::-1}"
 	else
 		uptime -p | sed 's/up//'
 	fi
