@@ -32,7 +32,7 @@ kernel=$(uname -s)
 # Setup fonts
 setup_fonts() {
 	if [ "$kernel" != Android ]; then
-		if ! fc-match :family='Material' | grep -Eq '^Material.ttf' ; then
+		if ! fc-match :family='Material' 2>/dev/null | grep -Eq '^Material.ttf' ; then
 			mkdir -p "$HOME/.local/share/fonts"
 			cp ttf-material-design-icons/* "$HOME/.local/share/fonts"
 			fc-cache -vf &>/dev/null
