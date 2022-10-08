@@ -177,6 +177,11 @@ get_storage_info() {
 		_SIZE="$(echo "${_GREP_ONE_ROW}" | awk '{print $2}')"
 		_USED="$(echo "${_GREP_ONE_ROW}" | awk '{print $3}')"
 		echo "$(head -n1 <<<"${_USED}")B / $(head -n1 <<<"${_SIZE}")B"
+	elif [ "$kernel" = "Darwin" ]; then
+		total_size=$(df -Hl | grep -w "/" | awk '{print $2}')
+		free_size=$(df -Hl | grep -w "/" | awk '{print $4}')
+		used_size=$(( ${total_size::-1} - ${free_size::-1} ))
+		echo "${used_size}G / $total_size"
 	else
 		df -h --output=used,size / | awk 'NR == 2 { print $1" / "$2 }'
 	fi
@@ -186,9 +191,9 @@ get_storage_info() {
 get_mem() {
 	if [ "$kernel" = "Darwin" ]; then
 		total_mem=$(($(sysctl -a | awk '/hw./' | awk '/mem/' | awk 'NR==1{print $2}') / 2**20 ))
-		free_mem=$(vm_stat | grep -E "Pageouts:" | awk 'NR==1{print $2}')
-		free_mem=${free_mem::-1}
-		echo "$free_mem / $total_mem MB"
+		used_mem=$(vm_stat | grep -E "Pageouts:" | awk 'NR==1{print $2}')
+		used_mem=${used_mem::-1}
+		echo "$used_mem / $total_mem MB"
 	else
 		free --mega | awk 'NR == 2 { print $3" / "$2" MB" }'
 	fi
