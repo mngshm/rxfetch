@@ -39,7 +39,6 @@ setup_fonts() {
 		fi
 	fi
 }
-
 # Get the init
 get_init() {
 	if [ "$kernel" = "Android" ]; then
@@ -50,6 +49,8 @@ get_init() {
 		echo 'systemd'
 	elif [ -f '/sbin/openrc' ]; then
 		echo 'openrc'
+	elif [ -f '/sbin/dinit' ]; then
+		echo 'dinit'
 	else
 		cut -d ' ' -f 1 /proc/1/comm
 	fi
