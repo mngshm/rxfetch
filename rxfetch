@@ -58,7 +58,7 @@ get_init() {
 
 # Get count of packages installed
 get_pkg_count() {
-	package_managers=('xbps-install' 'apk' 'port' 'apt' 'pacman' 'nix' 'dnf' 'rpm' 'emerge')
+	package_managers=('xbps-install' 'apk' 'port' 'apt' 'pacman' 'nix' 'dnf' 'rpm' 'emerge' 'eopkg')
 	for package_manager in "${package_managers[@]}"; do
 		if command -v "$package_manager" 2>/dev/null >&2; then
 			case "$package_manager" in
@@ -71,6 +71,7 @@ get_pkg_count() {
 			rpm) rpm -qa | wc -l ;;
 			emerge) qlist -I | wc -l ;;
 			port) port installed 2>/dev/null | wc -l | awk 'NR==1{print $1}' ;;
+			eopkg) eopkg li | wc -l ;;
 			esac
 
 			# if a package manager is found return from the function
