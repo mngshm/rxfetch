@@ -64,7 +64,12 @@ get_pkg_count() {
 			case "$package_manager" in
 			xbps-install) xbps-query -l | wc -l ;;
 			apk) apk search | wc -l ;;
-			apt) echo $(($(apt list --installed 2>/dev/null | wc -l) - 1)) ;;
+			apt) if [ "$kernel" != "Darwin" ]; then 
+					echo $(($(apt list --installed 2>/dev/null | wc -l) - 1))
+				 else
+					echo 0
+				 fi
+				 ;;
 			pacman) pacman -Q | wc -l ;;
 			nix) nix-env -qa --installed '*' | wc -l ;;
 			dnf) dnf list installed | wc -l ;;
