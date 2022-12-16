@@ -27,7 +27,7 @@ c10=${bgwhite}
 
 # Get the kernel
 # This will decide the further actionsvand command usages as bsd and gnu tools even with same name are DIFFERENT.
-kernel=$(uname -s)
+kernel=$(uname -o)
 
 # Setup fonts
 setup_fonts() {
