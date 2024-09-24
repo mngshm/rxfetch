@@ -65,7 +65,7 @@ $ cd rxfetch
 $ cp ttf-material-design-icons/* $HOME/.local/share/fonts
 # update fontconfig
 $ fc-cache -fv
-$ run rxfetch
+# run rxfetch
 $ ./rxfetch
 ```
 
