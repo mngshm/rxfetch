@@ -25,7 +25,7 @@ My modification of the [custom system fetching tool written in bash script](http
 If you don't wanna clone this repo or install rxfetch, you can use curl.
 
 ```yaml
-$ curl https://raw.githubusercontent.com/Mangeshrex/rxfetch/main/rxfetch | bash
+$ curl https://raw.githubusercontent.com/rocketmike12/rxfetch/main/rxfetch | bash
 ```
 
 ## Installation
@@ -50,7 +50,7 @@ $ ./rxfetch
 > If you have the fonts installed then just run this command.
 
 ```yaml
-$ wget https://raw.githubusercontent.com/Mangeshrex/rocketmike12/main/rxfetch && chmod +x rxfetch
+$ wget https://raw.githubusercontent.com/rocketmike12/rxfetch/main/rxfetch && chmod +x rxfetch
 ```
 
 - You can also add rxfetch to PATH by placing it in `/usr/local/bin`
