@@ -246,7 +246,7 @@ setup_fonts
 echo "               "
 
 if [ "$kernel" = Android ]; then
-	echo -e "               ${c5}phone${c3}  $(getprop ro.product.brand) $(getprop ro.product.model)"
+	echo -e "                   ${c5}phone${c3}  $(getprop ro.product.brand) $(getprop ro.product.model)"
 fi
 
 echo -e "         ${c7}.         ${c1}os${c3}     $(get_distro_name) $(uname -m)"
