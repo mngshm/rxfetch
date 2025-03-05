@@ -1,5 +1,5 @@
 <div align="center">
-<h1>rxfetch<h1>
+<h1>rxfetch-arch<h1>
 <img src="https://img.shields.io/github/stars/rocketmike12/rxfetch?color=e57474&labelColor=1e2528&style=for-the-badge"> <img src="https://img.shields.io/github/issues/rocketmike12/rxfetch?color=67b0e8&labelColor=1e2528&style=for-the-badge">
 <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=8ccf7e&labelColor=1e2528&style=for-the-badge">
 <img src="https://img.shields.io/github/forks/rocketmike12/rxfetch?color=e5c76b&labelColor=1e2528&style=for-the-badge">
@@ -25,7 +25,7 @@ My modification of the [custom system fetching tool written in bash script](http
 If you don't wanna clone this repo or install rxfetch, you can use curl.
 
 ```yaml
-$ curl https://raw.githubusercontent.com/rocketmike12/rxfetch/main/rxfetch | bash
+$ curl https://raw.githubusercontent.com/rocketmike12/rxfetch-arch/main/rxfetch | bash
 ```
 
 ## Installation
@@ -35,10 +35,10 @@ $ curl https://raw.githubusercontent.com/rocketmike12/rxfetch/main/rxfetch | bas
 - Clone this repository & run rxfetch.
 
 ```yaml
-# clones the rxfetch repo
-$ git clone https://github.com/rocketmike12/rxfetch
-# cd into rxfetch
-$ cd rxfetch
+# clones the rxfetch-arch repo
+$ git clone https://github.com/rocketmike12/rxfetch-arch
+# cd into rxfetch-arch 
+$ cd rxfetch-arch 
 # copy the fonts 
 $ cp ttf-material-design-icons/* $HOME/.local/share/fonts
 # update fontconfig
@@ -50,7 +50,7 @@ $ ./rxfetch
 > If you have the fonts installed then just run this command.
 
 ```yaml
-$ wget https://raw.githubusercontent.com/rocketmike12/rxfetch/main/rxfetch && chmod +x rxfetch
+$ wget https://raw.githubusercontent.com/rocketmike12/rxfetch-arch/main/rxfetch && chmod +x rxfetch
 ```
 
 - You can also add rxfetch to PATH by placing it in `/usr/local/bin`
