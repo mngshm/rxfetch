@@ -36,15 +36,21 @@ if [ -z "$TERMUX_VERSION" ]; then
     fi
 fi
 
+# Get rxfetch
+curl -s https://raw.githubusercontent.com/mngshm/rxfetch/refs/heads/main/rxfetch > rxfetch.temp
+
 # Install rxfetch
 echo -e "${BLUE}Installing rxfetch to system...${NC}"
 if [ -n "$TERMUX_VERSION" ]; then
-    cp rxfetch $PREFIX/bin/
+    cp rxfetch.temp $PREFIX/bin/rxfetch
     chmod +x $PREFIX/bin/rxfetch
 else
-    cp rxfetch /usr/local/bin/
+    cp rxfetch.temp /usr/local/bin/rxfetch
     chmod +x /usr/local/bin/rxfetch
 fi
 
 echo -e "${GREEN}rxfetch has been installed successfully!${NC}"
 echo -e "Run ${BLUE}rxfetch${NC} to try it out!"
+
+# Remove temp file
+rm -rf rxfetch.temp
