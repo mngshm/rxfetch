@@ -18,7 +18,18 @@ Custom system fetching tool written in bash script.
 - If wanted you can change the source code of the fetch as per your needs.
 - If you already use material-design-icons you can just use the command below to install it.
 
+## Quick Installation
 
+You can install rxfetch with this one-line command:
+
+```yaml
+curl -s https://raw.githubusercontent.com/Mangeshrex/rxfetch/main/install.sh | sudo bash
+```
+
+For Termux users:
+```yaml
+curl -s https://raw.githubusercontent.com/Mangeshrex/rxfetch/main/install.sh | bash
+```
 
 ## Run with curl
 
