@@ -4,7 +4,7 @@
 <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=8ccf7e&labelColor=1e2528&style=for-the-badge">
 <img src="https://img.shields.io/github/forks/rocketmike12/rxfetch?color=e5c76b&labelColor=1e2528&style=for-the-badge">
 <br>
-<img src="./screenshots/arch.png">
+<img src="./screenshots/arch.jpg">
 </div>
 
 ## About
