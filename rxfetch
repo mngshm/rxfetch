@@ -72,7 +72,7 @@ get_pkg_count() {
 				 ;;
 			pacman) pacman -Q | wc -l ;;
 			nix) nix-env -qa --installed '*' | wc -l ;;
-			dnf) dnf list installed | wc -l ;;
+			dnf) dnf list installed -q 2>/dev/null | sed '1,/^Installed Packages$/d' | wc -l ;;
 			rpm) rpm -qa | wc -l ;;
 			emerge) qlist -I | wc -l ;;
 			port) port installed 2>/dev/null | wc -l | awk 'NR==1{print $1}' ;;
@@ -241,6 +241,23 @@ get_de_wm() {
 	echo "${wm:-unknown}"
 }
 
+get_disk() {
+    df -T -BG | grep -v "overlay" | awk '
+    $7 == "/workspaces" {
+        used=$4; size=$3; fstype=$2;
+        print used " / " size " (" fstype ")";
+        found=1; exit
+    }
+    $7 == "/" {
+        root_used=$4; root_size=$3; root_fstype=$2
+    }
+    END {
+        if (!found) {
+            print root_used " / " root_size " (" root_fstype ")"
+        }
+    }'
+}
+
 setup_fonts
 
 echo "               "
@@ -261,7 +278,7 @@ if [ -n "$DISPLAY" ]; then
 fi
 
 echo -e "  ${c7}/.^         ^.\  ${c7}up${c3}    $(get_uptime)"
-echo -e "                   ${c6}disk${c3}   $(get_storage_info)"
+echo -e "                   ${c6}disk${c3}   ${c4}${disk}${c0}"
 echo -e "               "
 
 if [ "$kernel" != Android ] && [ "$kernel" != Darwin ]; then
